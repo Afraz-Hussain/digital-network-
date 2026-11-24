@@ -43,7 +43,7 @@ export default function Footer() {
           <div>
             <Link href="/" className="inline-flex items-center text-2xl font-bold text-[#0b2946]">
       <Image
-        src="/imgs/logobg.png" 
+        src="/imgs/logo.webp" 
         alt="Groupon Freight Logo" 
         width={200} 
         height={80} 
@@ -112,11 +112,11 @@ export default function Footer() {
 
             <div className="mt-5 space-y-4">
               <a
-                href="mailto:info@grouponfreight.org"
+                href="mailto:info@digitalnetwork.org"
                 className="flex items-start gap-3 text-sm text-slate-400 transition hover:text-orange-400"
               >
                 <Mail size={18} className="mt-0.5 shrink-0 text-orange-500" />
-                <span>info@grouponfreight.org</span>
+                <span>info@digitalnetwork.org</span>
               </a>
 
               <a

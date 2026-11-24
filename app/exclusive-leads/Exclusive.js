@@ -1,4 +1,3 @@
-
 import {
   Zap,
   ShieldCheck,
@@ -15,41 +14,41 @@ import {
 const features = [
   {
     icon: Zap,
-    title: "Real-Time Lead Delivery",
+    title: "Instant Lead Delivery",
     description:
-      "Receive lead opportunities as quickly as possible after a customer submits an inquiry. Timely delivery helps your sales team follow up while customer interest is fresh.",
+      "New quote requests are sent to you moments after a customer submits them, so your team can call while the customer is still comparing options.",
   },
   {
     icon: ShieldCheck,
-    title: "Lead Quality Checks",
+    title: "Screened for Quality",
     description:
-      "Our lead review process is designed to identify potential duplicates, incomplete details, and invalid contact information where possible, helping your team focus on better opportunities.",
+      "We check leads for duplicates, missing details and invalid contact information where possible, so your team spends less time on dead ends.",
   },
   {
     icon: Target,
-    title: "Targeted Lead Generation",
+    title: "Customers Who Need Shipping",
     description:
-      "Our approach combines relevant marketing channels to reach people looking for vehicle shipping services, helping connect your business with potential customers.",
+      "We use focused marketing channels to reach people actively searching for vehicle shipping, then pass their inquiries on to your brokerage.",
   },
   {
     icon: TrendingUp,
-    title: "Built for Sales Opportunities",
+    title: "Fuel for Your Sales Pipeline",
     description:
-      "Give your sales team opportunities to engage with prospective customers, follow up consistently, and build a stronger pipeline. Actual conversion results depend on your sales process and market conditions.",
+      "A steady flow of inquiries gives your team more chances to quote, follow up and close. Results still depend on your sales process and market conditions.",
   },
   {
     icon: SlidersHorizontal,
-    title: "Flexible Lead Options",
+    title: "Lead Types for Every Budget",
     description:
-      "Choose from shared leads, premium leads, exclusive leads, live calls, and specialty shipping opportunities to find options that suit your business.",
+      "Pick from shared, premium and exclusive leads, live call transfers and specialty shipping leads, and mix them to match your goals.",
   },
 ];
 
 const benefits = [
-  "Prompt lead delivery to support timely follow-up",
-  "Lead quality checks where applicable",
-  "Options for different budgets and sales teams",
-  "Domestic and international shipping opportunities",
+  "Leads delivered fast so you can call first",
+  "Quality screening on leads where applicable",
+  "Packages for small teams and large brokerages",
+  "Domestic and international shipping inquiries",
 ];
 
 export default function RealTimeLeads() {
@@ -64,34 +63,32 @@ export default function RealTimeLeads() {
           <div>
             <span className="inline-flex items-center gap-2 rounded-full border border-orange-200 bg-white px-4 py-2 text-sm font-semibold text-orange-700">
               <Zap size={16} />
-              Auto Transport Lead Solutions
+              Real-Time Auto Transport Leads
             </span>
 
             <h1 className="mt-6 text-4xl font-bold leading-tight tracking-tight text-slate-900 sm:text-5xl">
-              High-Quality Auto Transport Leads for{" "}
-              <span className="text-orange-500">GrouponFreight</span>
+              Fresh Auto Transport Leads From{" "}
+              <span className="text-orange-500">Digital Network</span>
             </h1>
 
             <p className="mt-6 text-base leading-8 text-slate-600">
-              GrouponFreight helps auto transport businesses connect with
-              prospective customers through lead packages designed for
-              different sales strategies and business needs. Our focus is
-              timely delivery, useful customer information, and flexible
-              options for growing your sales pipeline.
+              Digital Network connects auto transport brokers with people
+              who are ready to ship a vehicle. Our lead packages are built
+              around fast delivery, useful customer details and options that
+              fit the way your team sells.
             </p>
 
             <p className="mt-4 text-base leading-8 text-slate-600">
-              When a customer expresses interest in vehicle shipping,
-              responding promptly can make a difference. Our lead solutions
-              are designed to help your team follow up as soon as possible
-              and engage potential customers while their interest is fresh.
+              In auto transport, the first broker to call often wins the
+              booking. That&apos;s why our leads reach you quickly, giving
+              your team the best chance to connect while the customer is
+              still deciding.
             </p>
 
             <p className="mt-4 text-base leading-8 text-slate-600">
-              Looking for exclusive opportunities? Our exclusive packages
-              are intended for one broker per lead, rather than sharing the
-              same lead with multiple brokers. Package terms and availability
-              should be confirmed with our team before ordering.
+              Want less competition? With our exclusive packages, each lead
+              is meant to go to one broker instead of several. Please confirm
+              package terms and availability with our team before you order.
             </p>
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
@@ -99,7 +96,7 @@ export default function RealTimeLeads() {
                 href="/product-pricing"
                 className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-orange-500 px-6 py-3 font-semibold text-white transition hover:bg-orange-600"
               >
-                Explore Lead Pricing
+                See Lead Pricing
                 <ArrowRight size={18} />
               </a>
 
@@ -107,7 +104,7 @@ export default function RealTimeLeads() {
                 href="/contact"
                 className="inline-flex min-h-12 items-center justify-center rounded-xl border border-slate-300 bg-white px-6 py-3 font-semibold text-slate-800 transition hover:border-orange-400 hover:text-orange-600"
               >
-                Talk to Our Team
+                Speak With Our Team
               </a>
             </div>
           </div>
@@ -122,17 +119,16 @@ export default function RealTimeLeads() {
               </div>
 
               <p className="mt-8 text-sm font-semibold uppercase tracking-[0.2em] text-orange-300">
-                A smarter way to connect
+                Built for brokers
               </p>
 
               <h2 className="mt-3 text-3xl font-bold leading-tight sm:text-4xl">
-                More opportunities for your sales team.
+                More conversations. More bookings.
               </h2>
 
               <p className="mt-4 leading-7 text-slate-300">
-                Choose a lead package that fits your business, respond to
-                inquiries, and build a consistent process for converting
-                prospects into customers.
+                Pick a package, call new inquiries quickly and turn more
+                shipping quotes into confirmed jobs for your brokerage.
               </p>
 
               <div className="mt-8 space-y-4 border-t border-white/15 pt-6">
@@ -158,16 +154,16 @@ export default function RealTimeLeads() {
         <div className="mx-auto max-w-7xl">
           <div className="mx-auto max-w-3xl text-center">
             <p className="text-sm font-bold uppercase tracking-[0.2em] text-orange-600">
-              Why GrouponFreight
+              Why Digital Network
             </p>
 
             <h2 className="mt-4 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
-              Real-Time Auto Transport Leads That Support Your Sales Process
+              Leads Designed to Help Your Team Close More Shipments
             </h2>
 
             <p className="mt-5 leading-7 text-slate-600">
-              Give your team practical tools and lead options to engage
-              prospective vehicle-shipping customers.
+              Everything your sales team needs to reach vehicle shipping
+              customers at the right moment.
             </p>
           </div>
 
@@ -204,13 +200,13 @@ export default function RealTimeLeads() {
                 </div>
 
                 <h3 className="mt-6 text-xl font-bold text-slate-900">
-                  Personalized Support
+                  Help When You Need It
                 </h3>
 
                 <p className="mt-3 text-sm leading-7 text-slate-600">
-                  Need help choosing a package? Contact our team to discuss
-                  available lead types, pricing, and the options that best
-                  match your sales operation.
+                  Not sure which package to choose? Our team will walk you
+                  through lead types and pricing and help you find the best
+                  fit for your sales operation.
                 </p>
               </div>
 
@@ -218,7 +214,7 @@ export default function RealTimeLeads() {
                 href="/contact"
                 className="mt-6 inline-flex items-center gap-2 font-semibold text-orange-600 transition hover:text-orange-700"
               >
-                Contact Us
+                Get in Touch
                 <ArrowRight size={17} />
               </a>
             </article>
@@ -231,31 +227,31 @@ export default function RealTimeLeads() {
         <div className="mx-auto grid max-w-7xl items-center gap-10 lg:grid-cols-2">
           <div>
             <p className="text-sm font-bold uppercase tracking-[0.2em] text-orange-600">
-              Exclusive Lead Packages
+              Shared vs. Exclusive Leads
             </p>
 
             <h2 className="mt-4 text-3xl font-bold leading-tight tracking-tight text-slate-900 sm:text-4xl">
-              A More Focused Opportunity to Reach Your Customers
+              Choose the Lead Type That Fits Your Strategy
             </h2>
 
             <p className="mt-5 leading-8 text-slate-600">
-              Shared leads can help businesses manage costs, while exclusive
-              leads are designed to give one broker the opportunity to
-              respond to a particular inquiry. The right choice depends on
-              your budget, sales capacity, and preferred approach.
+              Shared leads are a cost-effective way to keep your pipeline
+              full. Exclusive leads give one broker the chance to work an
+              inquiry without competing callers. The best option depends on
+              your budget, team size and sales style.
             </p>
 
             <p className="mt-4 leading-8 text-slate-600">
-              Whichever option you choose, timely follow-up, clear
-              communication, and a reliable sales process remain important
-              parts of building customer relationships.
+              Whatever you choose, quick follow-up, clear communication and
+              a dependable sales process are what turn leads into loyal
+              customers.
             </p>
 
             <a
               href="/product-pricing"
               className="mt-7 inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-[#0b2946] px-6 py-3 font-semibold text-white transition hover:bg-orange-500"
             >
-              Compare Lead Packages
+              Compare Packages
               <ArrowRight size={18} />
             </a>
           </div>
@@ -267,11 +263,11 @@ export default function RealTimeLeads() {
               </div>
               <div>
                 <h3 className="font-bold text-slate-900">
-                  Respond While Interest Is Fresh
+                  Call New Leads Quickly
                 </h3>
                 <p className="mt-2 text-sm leading-7 text-slate-600">
-                  Build a process for reviewing new inquiries and contacting
-                  prospects promptly.
+                  Set up a simple routine so every new inquiry gets a fast
+                  first call.
                 </p>
               </div>
             </div>
@@ -282,11 +278,11 @@ export default function RealTimeLeads() {
               </div>
               <div>
                 <h3 className="font-bold text-slate-900">
-                  Understand Your Package
+                  Know What You&apos;re Getting
                 </h3>
                 <p className="mt-2 text-sm leading-7 text-slate-600">
-                  Confirm how leads are shared, what information is
-                  provided, and which quality checks apply to your package.
+                  Check how your leads are shared, which customer details are
+                  included and what screening applies to your package.
                 </p>
               </div>
             </div>
@@ -297,11 +293,11 @@ export default function RealTimeLeads() {
               </div>
               <div>
                 <h3 className="font-bold text-slate-900">
-                  Build a Consistent Sales Pipeline
+                  Grow a Reliable Pipeline
                 </h3>
                 <p className="mt-2 text-sm leading-7 text-slate-600">
-                  Track follow-ups, learn from your results, and refine your
-                  approach over time.
+                  Track your follow-ups, review what works and keep
+                  improving your results month after month.
                 </p>
               </div>
             </div>
@@ -317,17 +313,17 @@ export default function RealTimeLeads() {
           </div>
 
           <p className="mt-6 text-sm font-bold uppercase tracking-[0.2em] text-orange-400">
-            Let&apos;s Get Started
+            Ready When You Are
           </p>
 
           <h2 className="mt-3 text-3xl font-bold leading-tight text-white sm:text-4xl">
-            Find the Right Auto Transport Leads for Your Business
+            Start Getting Auto Transport Leads With Digital Network
           </h2>
 
           <p className="mx-auto mt-5 max-w-2xl leading-7 text-slate-300">
-            Have questions about pricing, package options, lead delivery, or
-            integrating leads with your sales management software? Contact
-            GrouponFreight to discuss your requirements.
+            Questions about pricing, packages, lead delivery or connecting
+            leads to your CRM? Reach out to Digital Network and our team will
+            help you get set up.
           </p>
 
           <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
@@ -335,7 +331,7 @@ export default function RealTimeLeads() {
               href="/contact"
               className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-orange-500 px-7 py-3 font-semibold text-white transition hover:bg-orange-600"
             >
-              Contact Us Today
+              Contact Our Team
               <ArrowRight size={18} />
             </a>
 

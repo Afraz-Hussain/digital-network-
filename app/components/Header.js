@@ -35,10 +35,10 @@ export default function Header() {
       <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4">
          <Link href="/" className="inline-flex items-center text-2xl font-bold text-[#0b2946]">
       <Image 
-        src="/imgs/logo.png" 
+        src="/imgs/logo.webp" 
         alt="Groupon Freight Logo" 
         width={200} 
-        height={80} 
+        height={90} 
         priority // Recommended for logos to prevent layout shift
         className="object-contain"
       />

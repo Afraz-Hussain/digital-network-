@@ -1,82 +1,97 @@
 "use client";
+
 import { useState } from "react";
 import {
-  Users,
-  UserRound,
-  PhoneCall,
-  Ship,
-  CheckCircle2,
   ArrowRight,
+  CheckCircle2,
+  ChevronDown,
   Flame,
+  Globe,
   Headphones,
+  Minus,
+  PhoneCall,
+  Plus,
   ShieldCheck,
+  Ship,
   Sparkles,
   Truck,
-  Globe,
-  Mail,
-  ChevronDown,
+  UserRound,
+  Users,
+  Wallet,
+  Layers,
+  Tag,
+  MessageCircle,
 } from "lucide-react";
 
+/* WhatsApp number: digits only with country code (US = 1) */
+const WHATSAPP_NUMBER = "17342622139";
 const MINIMUM_ORDER = 300;
 
 const pricingSections = [
   {
+    id: "domestic",
+    tab: "Domestic Leads",
     title: "Domestic Car Transport Leads",
-    subtitle: "Connect with customers shipping vehicles within the country.",
+    subtitle: "Customers shipping vehicles within the U.S.",
     icon: Truck,
     products: [
       {
         id: "cheap-shared",
-        name: "Cheap Shared Leads",
+        name: "Shared Leads",
         price: 2.75,
-        brokers: "10 Broker Max",
+        brokers: "Shared with up to 10 brokers",
         icon: Users,
         description:
-          "Designed for established brokerages with experienced sales teams. Budget-friendly leads with more competition — fast follow-up and a consistent sales process matter most here.",
+          "The most budget-friendly option. Best for experienced sales teams that can call fast and follow up consistently.",
         featured: false,
       },
       {
         id: "premium",
         name: "Premium Leads",
         price: 5,
-        brokers: "4 Broker Max",
+        brokers: "Shared with up to 4 brokers",
         icon: UserRound,
         description:
-          "A balanced option for small and midsized brokerages seeking less competition than standard shared leads, with room to build a stronger pipeline.",
+          "A balanced choice for small and midsized brokerages that want less competition at a fair price.",
         featured: true,
       },
       {
         id: "exclusive",
         name: "Exclusive Leads",
         price: 20,
-        brokers: "1 Broker Max",
+        brokers: "Sent to 1 broker only",
         icon: ShieldCheck,
         description:
-          "Built for brokerages that want maximum opportunity with each potential customer. Results depend on your sales process, follow-up speed, and market conditions.",
+          "Every lead is yours alone. Ideal if you want the full chance to win each customer without other brokers calling.",
         featured: false,
       },
     ],
   },
   {
+    id: "calls",
+    tab: "Live Calls",
     title: "Domestic Car Shipping Calls",
-    subtitle: "Speak directly with customers through live calls and transfers.",
+    subtitle: "Talk to customers live, the moment they call.",
     icon: PhoneCall,
     products: [
       {
         id: "live-calls",
-        name: "Auto Transport Calls",
+        name: "Live Transfer Calls",
         price: 25,
-        brokers: "1 Broker Max",
+        unit: "calls",
+        brokers: "Sent to 1 broker only",
         icon: PhoneCall,
         description:
-          "Live call opportunities for teams that prefer direct conversations with prospective vehicle-shipping customers and can respond promptly.",
+          "Customers are connected straight to your team by phone. Perfect for brokers who close best in a live conversation and can answer quickly.",
         featured: true,
       },
     ],
   },
   {
-    title: "Specialty Shipping",
-    subtitle: "Explore opportunities in specialized transport categories.",
+    id: "specialty",
+    tab: "Specialty",
+    title: "Specialty Shipping Leads",
+    subtitle: "Heavy equipment, RVs and boats.",
     icon: Ship,
     hot: true,
     products: [
@@ -84,64 +99,252 @@ const pricingSections = [
         id: "heavy-haul",
         name: "Heavy Haul Leads",
         price: 25,
-        brokers: "1 Broker Max",
+        brokers: "Sent to 1 broker only",
         icon: Truck,
+        extra: "Heavy equipment, RV & boat transport",
         description:
-          "Specialized opportunities covering heavy equipment, RV shipping, or boat transport — categories that may offer different pricing and stronger margin opportunities.",
+          "Specialized shipments that often come with different pricing and stronger margins. Great for brokers with the right carrier network.",
         featured: false,
         specialty: true,
       },
     ],
   },
   {
+    id: "international",
+    tab: "International",
     title: "International Auto Shipping Leads",
-    subtitle: "Reach customers planning to ship vehicles internationally.",
+    subtitle: "Customers shipping vehicles overseas.",
     icon: Globe,
     products: [
       {
         id: "international-shared",
-        name: "Shared International Leads",
+        name: "Shared International",
         price: 2.5,
-        brokers: "4 Broker Max",
+        brokers: "Shared with up to 4 brokers",
         icon: Users,
         description:
-          "A budget-conscious option for international auto transport brokerages with the capacity to handle shared opportunities and competitive environments.",
+          "An affordable way into international shipping for brokers ready to handle a competitive market.",
         featured: false,
       },
       {
         id: "international-exclusive",
-        name: "Exclusive International Leads",
+        name: "Exclusive International",
         price: 10,
-        brokers: "1 Broker Max",
+        brokers: "Sent to 1 broker only",
         icon: ShieldCheck,
         description:
-          "International shipping opportunities delivered to one broker — designed for businesses building a focused, high-conversion international sales pipeline.",
+          "International leads delivered to you alone, for brokerages building a focused overseas sales pipeline.",
         featured: true,
       },
     ],
   },
 ];
 
-const stats = [
-  { value: "10K+", label: "Leads Delivered" },
-  { value: "500+", label: "Broker Partners" },
-  { value: "98%", label: "Satisfaction Rate" },
-  { value: "$300", label: "Min. Order" },
+/* Facts taken from the pricing data — no invented numbers */
+const highlights = [
+  { icon: Layers, value: "7", label: "Lead Packages" },
+  { icon: Tag, value: "$2.50", label: "Starting Per Lead" },
+  { icon: ShieldCheck, value: "1 Broker", label: "Exclusive Options" },
+  { icon: Wallet, value: "$300", label: "Minimum Order" },
 ];
 
-function money(amount) {
-  return amount.toLocaleString("en-US", {
+const steps = [
+  {
+    icon: Layers,
+    title: "Choose Your Leads",
+    description:
+      "Compare domestic, specialty and international packages and pick what fits your team and budget.",
+  },
+  {
+    icon: MessageCircle,
+    title: "Send Your Order",
+    description:
+      "Set your quantity, check the estimated total and send your order to us on WhatsApp in one click.",
+  },
+  {
+    icon: CheckCircle2,
+    title: "Confirm & Start Closing",
+    description:
+      "We confirm pricing, availability and delivery details, then your leads start coming in.",
+  },
+];
+
+const money = (amount) =>
+  amount.toLocaleString("en-US", {
     style: "currency",
     currency: "USD",
     minimumFractionDigits: amount % 1 === 0 ? 0 : 2,
     maximumFractionDigits: 2,
   });
+
+const minQty = (price) => Math.ceil(MINIMUM_ORDER / price);
+
+const dotBg = (color, size = 24) => ({
+  backgroundImage: `radial-gradient(circle, ${color} 1px, transparent 1px)`,
+  backgroundSize: `${size}px ${size}px`,
+});
+
+/* ───────────────────────── Quantity calculator ───────────────────────── */
+function Calculator({ product, value, onChange, onCommit }) {
+  const min = minQty(product.price);
+  const qty = Math.max(min, Number(value) || 0);
+  const total = qty * product.price;
+
+  return (
+    <div className="rounded-2xl border border-slate-200/80 bg-slate-50/80 p-5">
+      <div className="flex items-center justify-between">
+        <label htmlFor={`qty-${product.id}`} className="text-sm font-bold text-[#061B35]">
+          How many {product.unit || "leads"}?
+        </label>
+        <span className="text-xs text-slate-400">Min. {min}</span>
+      </div>
+
+      <div className="mt-3 flex items-center gap-2">
+        <button
+          type="button"
+          aria-label="Decrease quantity"
+          disabled={qty <= min}
+          onClick={() => onCommit(qty - 1)}
+          className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-600 transition hover:border-[#FE8A01] hover:text-[#FE8A01] disabled:cursor-not-allowed disabled:opacity-40"
+        >
+          <Minus size={16} />
+        </button>
+        <input
+          id={`qty-${product.id}`}
+          type="number"
+          inputMode="numeric"
+          min={min}
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          onBlur={() => onCommit(qty)}
+          className="h-11 w-full min-w-0 rounded-xl border border-slate-200 bg-white px-3 text-center text-lg font-extrabold text-[#061B35] outline-none transition focus:border-[#FE8A01] focus:ring-4 focus:ring-[#FE8A01]/10"
+        />
+        <button
+          type="button"
+          aria-label="Increase quantity"
+          onClick={() => onCommit(qty + 1)}
+          className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-600 transition hover:border-[#FE8A01] hover:text-[#FE8A01]"
+        >
+          <Plus size={16} />
+        </button>
+      </div>
+
+      <div className="mt-4 flex items-end justify-between border-t border-dashed border-slate-200 pt-4">
+        <div>
+          <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
+            Estimated total
+          </p>
+          <p className="text-2xl font-black text-[#061B35]">{money(total)}</p>
+        </div>
+        <span className="rounded-full bg-[#FE8A01]/10 px-3 py-1 text-xs font-bold text-[#FE8A01]">
+          {qty} {product.unit || "leads"}
+        </span>
+      </div>
+    </div>
+  );
 }
 
-function getMinimumQuantity(price) {
-  return Math.ceil(MINIMUM_ORDER / price);
+/* ───────────────────────── Product card ───────────────────────── */
+function ProductCard({ product, wide, value, onChange, onCommit, onOrder }) {
+  const Icon = product.icon;
+  const featured = product.featured;
+
+  return (
+    <article
+      className={`group relative flex h-full flex-col rounded-[28px] p-[2px] transition-all duration-300 hover:-translate-y-1.5 ${
+        featured
+          ? "bg-gradient-to-br from-[#FE8A01] via-[#FFB459] to-[#1879D8] shadow-[0_30px_60px_-25px_rgba(254,138,1,0.55)]"
+          : "bg-slate-200/70 shadow-[0_20px_45px_-25px_rgba(6,27,53,0.3)] hover:bg-gradient-to-br hover:from-[#1879D8]/60 hover:to-[#FE8A01]/60"
+      }`}
+    >
+      {featured && (
+        <span className="absolute -top-3.5 left-1/2 z-10 inline-flex -translate-x-1/2 items-center gap-1.5 whitespace-nowrap rounded-full bg-[#FE8A01] px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.15em] text-white shadow-lg shadow-[#FE8A01]/40">
+          <Sparkles size={12} />
+          Most Popular
+        </span>
+      )}
+
+      <div
+        className={`flex h-full flex-col gap-7 rounded-[26px] bg-white p-7 ${
+          wide ? "lg:flex-row lg:items-stretch lg:gap-10 lg:p-9" : ""
+        }`}
+      >
+        {/* Info */}
+        <div className={`flex flex-1 flex-col ${wide ? "lg:justify-center" : ""}`}>
+          <div className="flex items-start justify-between gap-3">
+            <div
+              className={`flex h-14 w-14 items-center justify-center rounded-2xl transition-colors duration-300 ${
+                featured
+                  ? "bg-gradient-to-br from-[#FE8A01] to-[#E97900] text-white shadow-lg shadow-[#FE8A01]/30"
+                  : "bg-[#1879D8]/10 text-[#1879D8] group-hover:bg-[#1879D8] group-hover:text-white"
+              }`}
+            >
+              <Icon size={26} />
+            </div>
+            {product.specialty && (
+              <span className="rounded-full bg-[#FE8A01]/10 px-3 py-1 text-xs font-bold text-[#FE8A01] ring-1 ring-[#FE8A01]/20">
+                Specialty
+              </span>
+            )}
+          </div>
+
+          <h3 className="mt-6 text-xl font-extrabold text-[#061B35]">{product.name}</h3>
+
+          <div className="mt-2 flex items-baseline gap-1.5">
+            <span className="text-5xl font-black tracking-tight text-[#061B35]">
+              {money(product.price)}
+            </span>
+            <span className="text-sm font-semibold text-slate-400">
+              / {product.unit === "calls" ? "call" : "lead"}
+            </span>
+          </div>
+
+          <p className="mt-4 text-sm leading-relaxed text-slate-500">{product.description}</p>
+
+          <ul className="mt-5 space-y-2.5">
+            <li className="flex items-center gap-3 text-sm font-medium text-[#061B35]">
+              <CheckCircle2 size={18} className="shrink-0 text-[#FE8A01]" />
+              {product.brokers}
+            </li>
+            <li className="flex items-center gap-3 text-sm font-medium text-[#061B35]">
+              <Headphones size={18} className="shrink-0 text-[#FE8A01]" />
+              Dedicated customer support
+            </li>
+            {product.extra && (
+              <li className="flex items-center gap-3 text-sm font-medium text-[#061B35]">
+                <CheckCircle2 size={18} className="shrink-0 text-[#FE8A01]" />
+                {product.extra}
+              </li>
+            )}
+          </ul>
+        </div>
+
+        {/* Order */}
+        <div className={`mt-auto ${wide ? "lg:mt-0 lg:w-[340px] lg:shrink-0" : ""}`}>
+          <Calculator product={product} value={value} onChange={onChange} onCommit={onCommit} />
+
+          <button
+            type="button"
+            onClick={onOrder}
+            className={`group/btn mt-4 inline-flex min-h-[52px] w-full items-center justify-center gap-2 rounded-xl px-5 font-bold text-white transition-all duration-300 active:scale-[0.98] ${
+              featured
+                ? "bg-gradient-to-r from-[#FE8A01] to-[#F59A1F] shadow-[0_12px_30px_-10px_rgba(254,138,1,0.8)] hover:shadow-[0_16px_36px_-10px_rgba(254,138,1,0.95)]"
+                : "bg-[#061B35] hover:bg-[#FE8A01]"
+            }`}
+          >
+            Order Now
+            <ArrowRight size={18} className="transition-transform group-hover/btn:translate-x-1" />
+          </button>
+          <p className="mt-2.5 text-center text-xs text-slate-400">
+            Opens WhatsApp · We confirm before you pay
+          </p>
+        </div>
+      </div>
+    </article>
+  );
 }
 
+/* ───────────────────────── Page ───────────────────────── */
 export default function ProductPricingPage() {
   const [quantities, setQuantities] = useState({
     "cheap-shared": 120,
@@ -153,432 +356,278 @@ export default function ProductPricingPage() {
     "international-exclusive": 30,
   });
 
-  function updateQuantity(product, value) {
-    const minimumQuantity = getMinimumQuantity(product.price);
-    const parsedValue = parseInt(String(value), 10);
-    setQuantities((prev) => ({
-      ...prev,
-      [product.id]: Math.max(
-        minimumQuantity,
-        Number.isFinite(parsedValue) ? parsedValue : minimumQuantity
-      ),
+  // Free typing; the minimum is applied on blur / +/- clicks
+  const setRaw = (id, v) => setQuantities((q) => ({ ...q, [id]: v }));
+  const commit = (product, v) =>
+    setQuantities((q) => ({
+      ...q,
+      [product.id]: Math.max(minQty(product.price), parseInt(v, 10) || 0),
     }));
-  }
 
-  function orderProduct(product) {
-    const quantity = quantities[product.id];
-    const total = quantity * product.price;
-    const subject = encodeURIComponent(`Lead Order Inquiry - ${product.name}`);
-    const body = encodeURIComponent(
-      `Hello GrouponFreight,\n\nI would like to inquire about placing an order.\n\n` +
-        `Product: ${product.name}\n` +
-        `Price per lead: ${money(product.price)}\n` +
-        `Quantity: ${quantity}\n` +
-        `Estimated total: ${money(total)}\n\n` +
-        `Please provide the next steps for ordering.\n\nThank you.`
+  const orderProduct = (product) => {
+    const qty = Math.max(minQty(product.price), Number(quantities[product.id]) || 0);
+    const text = [
+      "Hello Digital Network! I'd like to place a lead order.",
+      "",
+      `Product: ${product.name}`,
+      `Price per ${product.unit === "calls" ? "call" : "lead"}: ${money(product.price)}`,
+      `Quantity: ${qty}`,
+      `Estimated total: ${money(qty * product.price)}`,
+      "",
+      "Please share the next steps.",
+    ].join("\n");
+    window.open(
+      `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`,
+      "_blank",
+      "noopener,noreferrer"
     );
-    window.location.href = `mailto:info@grouponfreight.com?subject=${subject}&body=${body}`;
-  }
+  };
 
   return (
-    <main className="min-h-screen bg-white text-slate-900">
-
-      {/* ═══════════════════════ NAVBAR ═══════════════════════ */}
-      <nav className="absolute top-0 left-0 right-0 z-30 flex items-center justify-between px-6 py-5 sm:px-10">
-        <div className="flex items-center gap-2.5">
-          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-orange-500">
-            <Truck size={18} className="text-white" />
-          </div>
-          <span className="text-lg font-bold tracking-tight text-white">
-            Groupon<span className="text-orange-400">Freight</span>
-          </span>
-        </div>
-        <a
-          href="mailto:info@grouponfreight.com"
-          className="hidden items-center gap-2 rounded-lg border border-white/25 bg-white/10 px-4 py-2 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-white/20 sm:inline-flex"
-        >
-          <Mail size={14} />
-          Contact Us
-        </a>
-      </nav>
-
+    <main className="bg-white text-[#061B35]">
       {/* ═══════════════════════ HERO ═══════════════════════ */}
-      <section className="relative isolate min-h-screen flex flex-col justify-center overflow-hidden">
-        {/* Background image */}
+      <section className="relative isolate flex min-h-[640px] flex-col justify-center overflow-hidden lg:min-h-[720px]">
         <img
           src="/imgs/truck2.jpg"
-          alt="Semi-truck on the open highway"
-          className="absolute inset-0 -z-20 h-full w-full object-cover object-center"
+          alt="Car carrier truck on the highway"
+          className="absolute inset-0 -z-30 h-full w-full object-cover"
         />
-        {/* Layered overlays for depth */}
-        <div className="absolute inset-0 -z-10 bg-gradient-to-r from-black/80 via-black/60 to-black/30" />
-        <div className="absolute inset-0 -z-10 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
-        {/* Orange glow accent */}
-        <div className="absolute left-0 top-1/3 -z-10 h-96 w-96 -translate-x-1/2 rounded-full bg-orange-600/20 blur-3xl pointer-events-none" />
+        <div className="absolute inset-0 -z-20 bg-gradient-to-r from-[#061B35] via-[#061B35]/85 to-[#061B35]/30" />
+        <div className="absolute inset-x-0 bottom-0 -z-20 h-48 bg-gradient-to-t from-[#061B35] to-transparent" />
+        <div className="absolute inset-0 -z-10 opacity-[0.12]" style={dotBg("#fff", 26)} />
+        <div className="pointer-events-none absolute -left-40 top-1/3 -z-10 h-[460px] w-[460px] rounded-full bg-[#FE8A01]/20 blur-[130px]" />
 
-        <div className="mx-auto w-full max-w-7xl px-6 pb-24 pt-32 sm:px-10 lg:pt-36">
+        <div className="mx-auto w-full max-w-7xl px-6 py-24 sm:px-10">
           <div className="max-w-2xl">
-
-            {/* Eyebrow */}
-            <div className="mb-7 inline-flex items-center gap-2 rounded-full border border-orange-400/40 bg-orange-500/15 px-4 py-1.5 text-sm font-semibold text-orange-300 backdrop-blur-sm">
-              <span className="h-1.5 w-1.5 rounded-full bg-orange-400 animate-pulse" />
-              Trusted by 500+ U.S. Auto Transport Brokers
+            <div className="inline-flex items-center gap-2.5 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-xs font-bold uppercase tracking-[0.2em] text-white/90 backdrop-blur">
+              <span className="relative flex h-2 w-2">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#FE8A01] opacity-70" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-[#FE8A01]" />
+              </span>
+              Digital Network Lead Pricing
             </div>
 
-            <h1 className="text-5xl font-extrabold leading-[1.08] tracking-tight text-white sm:text-6xl lg:text-[4.5rem]">
-              Car Shipping Leads
-              <br />
-              <span className="text-orange-400">That Close Deals.</span>
+            <h1 className="mt-7 text-4xl font-black leading-[1.08] tracking-tight text-white sm:text-6xl lg:text-[68px]">
+              Simple Pricing.
+              <span className="block bg-gradient-to-r from-[#FE8A01] to-[#FFB459] bg-clip-text text-transparent">
+                Serious Leads.
+              </span>
             </h1>
 
-            <p className="mt-6 max-w-lg text-lg leading-8 text-white/75">
-              Shared, premium, exclusive, and live-call packages for domestic
-              and international auto transport — with real-time pricing and
-              instant order inquiries.
+            <p className="mt-6 max-w-lg text-lg leading-relaxed text-white/70">
+              Shared, premium, exclusive and live call leads for domestic and international
+              auto transport. Pick a package, set your quantity and see your total instantly.
             </p>
 
-            <div className="mt-9 flex flex-wrap gap-4">
+            <div className="mt-9 flex flex-wrap items-center gap-5">
               <a
                 href="#pricing"
-                className="inline-flex items-center gap-2 rounded-xl bg-orange-500 px-8 py-3.5 font-bold text-white shadow-lg shadow-orange-900/40 transition hover:bg-orange-400 active:scale-95"
+                className="group inline-flex items-center gap-4 rounded-full bg-[#FE8A01] py-2 pl-7 pr-2 text-sm font-bold text-white shadow-[0_12px_30px_-10px_rgba(254,138,1,0.9)] transition hover:bg-[#E97900]"
               >
                 View All Packages
-                <ArrowRight size={18} />
+                <span className="flex h-10 w-10 items-center justify-center rounded-full bg-white text-[#FE8A01] transition-transform group-hover:translate-x-1">
+                  <ArrowRight size={16} />
+                </span>
               </a>
               <a
                 href="#how-it-works"
-                className="inline-flex items-center gap-2 rounded-xl border border-white/25 bg-white/10 px-8 py-3.5 font-semibold text-white backdrop-blur-sm transition hover:bg-white/20"
+                className="text-sm font-bold text-white underline decoration-white/30 underline-offset-4 transition hover:text-[#FE8A01] hover:decoration-[#FE8A01]"
               >
-                How It Works
+                How ordering works
               </a>
             </div>
+          </div>
 
-            {/* Stats strip */}
-            <div className="mt-14 grid grid-cols-2 gap-3 sm:grid-cols-4">
-              {stats.map((s) => (
+          {/* Highlights */}
+          <div className="mt-16 grid max-w-4xl grid-cols-2 gap-3 sm:grid-cols-4">
+            {highlights.map((h) => {
+              const Icon = h.icon;
+              return (
                 <div
-                  key={s.label}
-                  className="rounded-xl border border-white/10 bg-white/8 px-4 py-4 text-center backdrop-blur-sm"
-                  style={{ backgroundColor: "rgba(255,255,255,0.06)" }}
+                  key={h.label}
+                  className="rounded-2xl border border-white/10 bg-white/[0.06] p-4 backdrop-blur-md"
                 >
-                  <p className="text-2xl font-extrabold text-orange-400">{s.value}</p>
-                  <p className="mt-0.5 text-xs font-medium text-white/55">{s.label}</p>
+                  <Icon size={18} className="text-[#FE8A01]" />
+                  <p className="mt-3 text-2xl font-black text-white">{h.value}</p>
+                  <p className="text-xs font-medium text-white/55">{h.label}</p>
                 </div>
-              ))}
-            </div>
+              );
+            })}
           </div>
         </div>
 
-        {/* Scroll hint */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2">
-          <ChevronDown size={26} className="text-white/40 animate-bounce" />
-        </div>
+        <ChevronDown
+          size={26}
+          className="absolute bottom-6 left-1/2 -translate-x-1/2 animate-bounce text-white/40"
+        />
       </section>
 
-      {/* ═══════════════════════ PRICING HEADER BAND ═══════════════════════ */}
+      {/* ═══════════════════════ PRICING ═══════════════════════ */}
       <section
         id="pricing"
-        className="scroll-mt-16 bg-[#0f1f33] px-6 py-12 sm:px-10"
+        className="relative scroll-mt-28 overflow-hidden bg-[#F5F8FC] px-6 pb-24 pt-16 sm:px-10"
       >
-        <div className="mx-auto flex max-w-7xl flex-col items-start gap-6 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <p className="text-xs font-bold uppercase tracking-[0.22em] text-orange-400">
-              Transparent Pricing
-            </p>
-            <h2 className="mt-2 text-2xl font-extrabold text-white sm:text-3xl">
-              Choose the Right Package for Your Business
-            </h2>
-            <p className="mt-2 max-w-xl text-sm leading-6 text-white/50">
-              Compare lead types, set your quantity, and get your estimated
-              total instantly. Prices confirmed before your order is placed.
-            </p>
-          </div>
-          <div className="flex shrink-0 items-center gap-4 rounded-2xl border border-orange-500/30 bg-orange-500/10 px-6 py-5">
-            <ShieldCheck size={34} className="text-orange-400" />
-            <div>
-              <p className="text-xs font-medium text-white/50">Minimum order</p>
-              <p className="text-3xl font-extrabold leading-none text-white">$300</p>
+        <div className="pointer-events-none absolute inset-0 opacity-60" style={dotBg("rgba(24,121,216,0.18)", 28)} />
+        <div className="pointer-events-none absolute -right-40 top-40 h-[500px] w-[500px] rounded-full bg-[#1879D8]/10 blur-[130px]" />
+        <div className="pointer-events-none absolute -left-40 bottom-40 h-[500px] w-[500px] rounded-full bg-[#FE8A01]/10 blur-[130px]" />
+
+        <div className="relative mx-auto max-w-7xl">
+          {/* Header */}
+          <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
+            <div className="max-w-2xl">
+              <div className="flex items-center gap-3">
+                <span className="h-px w-10 bg-[#FE8A01]" />
+                <span className="text-xs font-bold uppercase tracking-[0.25em] text-[#FE8A01]">
+                  Transparent Pricing
+                </span>
+              </div>
+              <h2 className="mt-4 text-3xl font-black tracking-tight sm:text-4xl lg:text-5xl">
+                Choose the Right Package
+              </h2>
+              <p className="mt-4 text-base leading-relaxed text-slate-600">
+                Compare lead types, set your quantity and get an instant estimate. We confirm
+                final pricing with you before any order is placed.
+              </p>
+            </div>
+
+            <div className="flex items-center gap-4 rounded-2xl bg-[#061B35] px-6 py-5 text-white shadow-xl shadow-[#061B35]/20">
+              <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#FE8A01]/15">
+                <Wallet size={24} className="text-[#FE8A01]" />
+              </span>
+              <div>
+                <p className="text-xs font-medium text-white/55">Minimum order</p>
+                <p className="text-3xl font-black leading-none">{money(MINIMUM_ORDER)}</p>
+              </div>
             </div>
           </div>
-        </div>
 
-        <p className="mx-auto mt-6 max-w-4xl text-center text-xs leading-6 text-white/30">
-          Suggested per-lead prices may change with market conditions, demand, and availability.
-          Confirm current pricing and lead details with our team before placing your order.
-        </p>
-      </section>
+          {/* Category tabs */}
+          <nav className="mt-10 flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            {pricingSections.map((s) => {
+              const Icon = s.icon;
+              return (
+                <a
+                  key={s.id}
+                  href={`#${s.id}`}
+                  className="inline-flex shrink-0 items-center gap-2 rounded-full border border-slate-200 bg-white px-5 py-2.5 text-sm font-bold text-[#061B35] shadow-sm transition hover:border-[#FE8A01] hover:text-[#FE8A01]"
+                >
+                  <Icon size={16} />
+                  {s.tab}
+                  {s.hot && <Flame size={14} className="text-[#FE8A01]" />}
+                </a>
+              );
+            })}
+          </nav>
 
-      {/* ═══════════════════════ PRICING CARDS ═══════════════════════ */}
-      <section className="bg-slate-50 px-6 py-20 sm:px-10">
-        <div className="mx-auto max-w-7xl space-y-24">
-          {pricingSections.map((section) => {
-            const SectionIcon = section.icon;
-            return (
-              <div key={section.title}>
-                {/* Section label */}
-                <div className="mb-10 border-b border-slate-200 pb-7">
-                  {section.hot && (
-                    <span className="mb-4 inline-flex items-center gap-1.5 rounded-full bg-orange-100 px-3 py-1 text-xs font-bold uppercase tracking-wider text-orange-600">
-                      <Flame size={13} />
-                      Hot Products
-                    </span>
-                  )}
-                  <div className="flex items-center gap-4">
-                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[#0f1f33] text-white shadow-md">
+          {/* Sections */}
+          <div className="mt-16 space-y-20">
+            {pricingSections.map((section) => {
+              const SectionIcon = section.icon;
+              const single = section.products.length === 1;
+              return (
+                <div key={section.id} id={section.id} className="scroll-mt-32">
+                  <div className="mb-10 flex items-center gap-4">
+                    <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-[#1879D8] to-[#0E4F95] text-white shadow-lg shadow-[#1879D8]/30">
                       <SectionIcon size={22} />
-                    </div>
+                    </span>
                     <div>
-                      <h2 className="text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">
-                        {section.title}
-                      </h2>
+                      <div className="flex flex-wrap items-center gap-3">
+                        <h3 className="text-2xl font-black tracking-tight sm:text-3xl">
+                          {section.title}
+                        </h3>
+                        {section.hot && (
+                          <span className="inline-flex items-center gap-1 rounded-full bg-[#FE8A01] px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-white">
+                            <Flame size={12} />
+                            Hot
+                          </span>
+                        )}
+                      </div>
                       <p className="mt-1 text-sm text-slate-500">{section.subtitle}</p>
                     </div>
                   </div>
-                </div>
 
-                {/* Cards */}
-                <div
-                  className={`grid grid-cols-1 gap-7 ${
-                    section.products.length === 1
-                      ? "mx-auto max-w-md"
-                      : "md:grid-cols-2 xl:grid-cols-3"
-                  }`}
-                >
-                  {section.products.map((product) => {
-                    const ProductIcon = product.icon;
-                    const quantity = quantities[product.id];
-                    const total = quantity * product.price;
-                    const minimumQuantity = getMinimumQuantity(product.price);
-
-                    return (
-                      <article
+                  <div
+                    className={`grid gap-8 ${
+                      single
+                        ? "grid-cols-1"
+                        : section.products.length === 2
+                        ? "md:grid-cols-2 lg:mx-auto lg:max-w-5xl"
+                        : "md:grid-cols-2 xl:grid-cols-3"
+                    }`}
+                  >
+                    {section.products.map((product) => (
+                      <ProductCard
                         key={product.id}
-                        className={`group relative flex flex-col overflow-hidden rounded-2xl bg-white transition-all duration-300 hover:-translate-y-1.5 hover:shadow-2xl ${
-                          product.featured
-                            ? "shadow-xl shadow-orange-900/10 ring-2 ring-orange-400"
-                            : "shadow-md shadow-slate-200"
-                        }`}
-                      >
-                        {/* Featured ribbon */}
-                        {product.featured && (
-                          <div className="flex items-center justify-center gap-1.5 bg-orange-500 py-2.5 text-xs font-bold uppercase tracking-[0.18em] text-white">
-                            <Sparkles size={12} />
-                            Most Popular
-                          </div>
-                        )}
-
-                        {/* Top accent bar for non-featured */}
-                        {!product.featured && (
-                          <div className="h-1 w-full bg-gradient-to-r from-slate-200 via-slate-300 to-slate-200 group-hover:from-orange-400 group-hover:via-orange-500 group-hover:to-orange-400 transition-all duration-500" />
-                        )}
-
-                        <div className="flex flex-1 flex-col p-7">
-                          {/* Icon row */}
-                          <div className="flex items-start justify-between">
-                            <div
-                              className={`flex h-12 w-12 items-center justify-center rounded-xl ${
-                                product.featured
-                                  ? "bg-orange-500 text-white"
-                                  : "bg-slate-100 text-[#0f1f33] group-hover:bg-orange-50 group-hover:text-orange-600 transition-colors duration-300"
-                              }`}
-                            >
-                              <ProductIcon size={24} />
-                            </div>
-                            {product.specialty && (
-                              <span className="rounded-full bg-orange-50 px-3 py-1 text-xs font-bold text-orange-600 ring-1 ring-orange-200">
-                                Specialty
-                              </span>
-                            )}
-                          </div>
-
-                          {/* Name + price */}
-                          <h3 className="mt-5 text-xl font-extrabold text-slate-900">
-                            {product.name}
-                          </h3>
-                          <div className="mt-3 flex items-baseline gap-1.5">
-                            <span className="text-4xl font-extrabold tracking-tight text-[#0f1f33]">
-                              {money(product.price)}
-                            </span>
-                            <span className="text-sm text-slate-400 font-medium">/ lead</span>
-                          </div>
-
-                          {/* Feature list */}
-                          <ul className="mt-5 space-y-2.5 border-y border-slate-100 py-5">
-                            <li className="flex items-center gap-3 text-sm text-slate-700">
-                              <CheckCircle2 size={17} className="shrink-0 text-orange-500" />
-                              {product.brokers}
-                            </li>
-                            <li className="flex items-center gap-3 text-sm text-slate-700">
-                              <Headphones size={17} className="shrink-0 text-orange-500" />
-                              Dedicated customer support
-                            </li>
-                            {product.specialty && (
-                              <li className="flex items-start gap-3 text-sm text-slate-700">
-                                <CheckCircle2 size={17} className="mt-0.5 shrink-0 text-orange-500" />
-                                Heavy equipment, RV &amp; boat transport
-                              </li>
-                            )}
-                          </ul>
-
-                          {/* Description */}
-                          <p className="mt-5 flex-1 text-sm leading-7 text-slate-500">
-                            {product.description}
-                          </p>
-
-                          {/* Quantity calculator */}
-                          <div className="mt-7 rounded-xl border border-slate-100 bg-slate-50 p-5">
-                            <label
-                              htmlFor={`qty-${product.id}`}
-                              className="block text-sm font-bold text-slate-800"
-                            >
-                              How many leads?
-                            </label>
-
-                            <div className="mt-3 flex items-center gap-2">
-                              <button
-                                type="button"
-                                aria-label="Decrease quantity"
-                                disabled={quantity <= minimumQuantity}
-                                onClick={() => updateQuantity(product, quantity - 1)}
-                                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-slate-200 bg-white text-xl font-light text-slate-600 transition hover:border-orange-400 hover:text-orange-600 disabled:cursor-not-allowed disabled:opacity-40"
-                              >
-                                −
-                              </button>
-
-                              <input
-                                id={`qty-${product.id}`}
-                                type="number"
-                                min={minimumQuantity}
-                                step="1"
-                                value={quantity}
-                                onChange={(e) => updateQuantity(product, e.target.value)}
-                                className="h-11 w-full min-w-0 rounded-lg border border-slate-200 bg-white px-3 text-center font-bold text-slate-900 outline-none transition focus:border-orange-500 focus:ring-2 focus:ring-orange-100"
-                              />
-
-                              <button
-                                type="button"
-                                aria-label="Increase quantity"
-                                onClick={() => updateQuantity(product, quantity + 1)}
-                                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-slate-200 bg-white text-xl font-light text-slate-600 transition hover:border-orange-400 hover:text-orange-600"
-                              >
-                                +
-                              </button>
-                            </div>
-
-                            <p className="mt-1.5 text-xs text-slate-400">
-                              Minimum order: {minimumQuantity} leads
-                            </p>
-
-                            {/* Running total */}
-                            <div className="mt-5 flex items-end justify-between border-t border-slate-200 pt-4">
-                              <div>
-                                <p className="text-xs font-medium text-slate-400 uppercase tracking-wide">
-                                  Estimated Total
-                                </p>
-                                <p className="mt-0.5 text-2xl font-extrabold text-slate-900">
-                                  {money(total)}
-                                </p>
-                              </div>
-                              <span className="rounded-lg bg-orange-50 px-3 py-1.5 text-xs font-bold text-orange-600 ring-1 ring-orange-100">
-                                {quantity} leads
-                              </span>
-                            </div>
-                          </div>
-
-                          {/* CTA button */}
-                          <button
-                            type="button"
-                            onClick={() => orderProduct(product)}
-                            className={`mt-5 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl px-5 py-3.5 font-bold transition-all duration-200 active:scale-95 ${
-                              product.featured
-                                ? "bg-orange-500 text-white hover:bg-orange-600 shadow-lg shadow-orange-200"
-                                : "bg-[#0f1f33] text-white hover:bg-orange-500"
-                            }`}
-                          >
-                            Order Now
-                            <ArrowRight size={17} />
-                          </button>
-
-                          <p className="mt-3 text-center text-xs text-slate-400">
-                            Order inquiry · Confirmation required
-                          </p>
-                        </div>
-                      </article>
-                    );
-                  })}
+                        product={product}
+                        wide={single}
+                        value={quantities[product.id]}
+                        onChange={(v) => setRaw(product.id, v)}
+                        onCommit={(v) => commit(product, v)}
+                        onOrder={() => orderProduct(product)}
+                      />
+                    ))}
+                  </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
+
+          <p className="mx-auto mt-16 max-w-3xl text-center text-xs leading-6 text-slate-400">
+            Per-lead prices may change with market conditions, demand and availability. Please
+            confirm current pricing and lead details with our team before placing your order.
+          </p>
         </div>
       </section>
 
       {/* ═══════════════════════ HOW IT WORKS ═══════════════════════ */}
-      <section id="how-it-works" className="scroll-mt-16 bg-[#0f1f33] px-6 py-20 sm:px-10">
+      <section
+        id="how-it-works"
+        className="relative isolate scroll-mt-28 overflow-hidden bg-[#061B35] px-6 py-24 sm:px-10"
+      >
+        <div
+          className="pointer-events-none absolute inset-0 -z-10 opacity-[0.07] [mask-image:radial-gradient(ellipse_at_top,black_30%,transparent_75%)]"
+          style={{
+            backgroundImage:
+              "linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)",
+            backgroundSize: "56px 56px",
+          }}
+        />
+        <div className="pointer-events-none absolute left-1/2 top-0 -z-10 h-[400px] w-[800px] -translate-x-1/2 rounded-full bg-[#1879D8]/25 blur-[140px]" />
+
         <div className="mx-auto max-w-7xl">
           <div className="mx-auto max-w-2xl text-center">
-            <p className="text-xs font-bold uppercase tracking-[0.22em] text-orange-400">
+            <p className="text-xs font-bold uppercase tracking-[0.25em] text-[#FE8A01]">
               Simple Process
             </p>
-            <h2 className="mt-3 text-3xl font-extrabold text-white sm:text-4xl">
-              Getting Started Takes Minutes
+            <h2 className="mt-4 text-3xl font-black text-white sm:text-4xl lg:text-5xl">
+              Ordering Takes Minutes
             </h2>
-            <p className="mt-4 text-sm leading-7 text-white/55">
-              Choose a package, send your inquiry, and our team will confirm
-              the details before your order ships.
+            <p className="mt-4 text-base leading-relaxed text-white/60">
+              No account needed. Pick a package, send your order and we handle the rest.
             </p>
           </div>
 
-          <div className="mt-14 grid gap-6 sm:grid-cols-3">
-            {[
-              {
-                step: "01",
-                icon: Truck,
-                title: "Choose Your Leads",
-                description:
-                  "Browse domestic, specialty, and international packages. Select the tier that fits your sales team's capacity and budget.",
-              },
-              {
-                step: "02",
-                icon: Mail,
-                title: "Submit Your Inquiry",
-                description:
-                  "Set your quantity, review your estimated total, and fire off an order inquiry in one click — no account needed.",
-              },
-              {
-                step: "03",
-                icon: CheckCircle2,
-                title: "Confirm & Start Closing",
-                description:
-                  "Our team confirms current pricing, availability, and delivery details. You get leads. You close deals.",
-              },
-            ].map((step, i) => {
-              const StepIcon = step.icon;
+          <div className="relative mt-16 grid gap-6 md:grid-cols-3">
+            {/* Connector line (desktop) */}
+            <div className="absolute left-[16%] right-[16%] top-10 hidden h-px border-t-2 border-dashed border-white/15 md:block" />
+
+            {steps.map((step, i) => {
+              const Icon = step.icon;
               return (
                 <div
-                  key={step.step}
-                  className="relative overflow-hidden rounded-2xl border border-white/8 bg-white/5 p-8 backdrop-blur-sm"
-                  style={{ borderColor: "rgba(255,255,255,0.08)" }}
+                  key={step.title}
+                  className="group relative rounded-3xl border border-white/10 bg-white/[0.04] p-8 text-center backdrop-blur transition hover:-translate-y-1 hover:border-[#FE8A01]/40 hover:bg-white/[0.07]"
                 >
-                  {/* Ghost step number */}
-                  <span className="absolute right-4 top-4 text-8xl font-extrabold leading-none text-white/5 select-none">
-                    {step.step}
-                  </span>
-
-                  {/* Icon circle */}
-                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-orange-500 text-white shadow-lg shadow-orange-900/30">
-                    <StepIcon size={22} />
+                  <div className="relative mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-[#061B35] ring-1 ring-white/10">
+                    <span className="flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-[#FE8A01] to-[#E97900] text-white shadow-[0_10px_30px_-8px_rgba(254,138,1,0.8)]">
+                      <Icon size={24} />
+                    </span>
+                    <span className="absolute -right-1 -top-1 flex h-7 w-7 items-center justify-center rounded-full bg-white text-[11px] font-black text-[#061B35]">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
                   </div>
-
-                  {/* Connector arrow (not on last item) */}
-                  {i < 2 && (
-                    <div className="absolute -right-3 top-1/2 hidden -translate-y-1/2 sm:block">
-                      <ArrowRight size={20} className="text-orange-500/40" />
-                    </div>
-                  )}
-
-                  <h3 className="mt-6 text-lg font-extrabold text-white">{step.title}</h3>
-                  <p className="mt-3 text-sm leading-7 text-white/55">{step.description}</p>
+                  <h3 className="mt-6 text-xl font-extrabold text-white">{step.title}</h3>
+                  <p className="mt-3 text-sm leading-relaxed text-white/60">{step.description}</p>
                 </div>
               );
             })}
@@ -588,57 +637,48 @@ export default function ProductPricingPage() {
 
       {/* ═══════════════════════ FINAL CTA ═══════════════════════ */}
       <section className="relative isolate overflow-hidden px-6 py-24 sm:px-10">
-        {/* Reuse truck image */}
         <img
           src="/imgs/truck2.jpg"
           alt=""
           aria-hidden="true"
-          className="absolute inset-0 -z-20 h-full w-full object-cover object-center"
+          className="absolute inset-0 -z-20 h-full w-full object-cover"
         />
-        <div className="absolute inset-0 -z-10 bg-[#0a1829]/88" />
-        {/* Orange glow */}
-        <div className="absolute left-1/2 top-0 -z-10 h-80 w-80 -translate-x-1/2 -translate-y-1/2 rounded-full bg-orange-500/20 blur-3xl pointer-events-none" />
+        <div className="absolute inset-0 -z-10 bg-gradient-to-br from-[#FE8A01]/95 via-[#E97900]/90 to-[#061B35]/90" />
+        <div className="absolute inset-0 -z-10 opacity-20" style={dotBg("#fff", 22)} />
 
-        <div className="mx-auto max-w-4xl text-center">
-          <p className="text-xs font-bold uppercase tracking-[0.22em] text-orange-400">
-            Get in Touch
-          </p>
-          <h2 className="mt-4 text-3xl font-extrabold leading-tight text-white sm:text-5xl">
-            Not Sure Which Package Is Right?
-            <br className="hidden sm:block" />
-            <span className="text-orange-400"> Let&apos;s Talk.</span>
-          </h2>
-          <p className="mx-auto mt-5 max-w-xl text-base leading-8 text-white/60">
-            Our team works with brokerages of all sizes across the U.S. — from
-            independent operators to national fleets. We&apos;ll help you find
-            the right volume and lead type for your goals.
-          </p>
+        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-10 text-center lg:flex-row lg:text-left">
+          <div className="max-w-2xl">
+            <h2 className="text-3xl font-black leading-tight text-white sm:text-5xl">
+              Not Sure Which Package Fits?
+            </h2>
+            <p className="mt-4 text-lg leading-relaxed text-white/85">
+              Tell us about your brokerage and we&apos;ll help you pick the right lead type
+              and volume for your goals.
+            </p>
+          </div>
 
-          <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
+          <div className="flex shrink-0 flex-col gap-3 sm:flex-row">
             <a
-              href="mailto:info@grouponfreight.com?subject=Auto%20Transport%20Lead%20Pricing%20Inquiry"
-              className="inline-flex items-center gap-2.5 rounded-xl bg-orange-500 px-9 py-4 text-base font-bold text-white shadow-xl shadow-orange-900/40 transition hover:bg-orange-400 active:scale-95"
+              href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
+                "Hello Digital Network! I need help choosing a lead package."
+              )}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2.5 rounded-xl bg-white px-8 py-4 font-bold text-[#061B35] shadow-xl transition hover:-translate-y-0.5"
             >
-              <Mail size={18} />
-              Email Our Team
+              <MessageCircle size={18} className="text-[#25D366]" />
+              Chat on WhatsApp
             </a>
             <a
               href="#pricing"
-              className="inline-flex items-center gap-2 rounded-xl border border-white/20 bg-white/8 px-9 py-4 text-base font-semibold text-white backdrop-blur-sm transition hover:bg-white/15"
-              style={{ backgroundColor: "rgba(255,255,255,0.05)" }}
+              className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/40 px-8 py-4 font-bold text-white transition hover:bg-white/10"
             >
               Back to Pricing
               <ArrowRight size={17} />
             </a>
           </div>
-
-          <p className="mt-8 text-xs text-white/30">
-            info@grouponfreight.org &nbsp;·&nbsp; Typically responds within one business day
-          </p>
         </div>
       </section>
-
-   
     </main>
   );
 }
