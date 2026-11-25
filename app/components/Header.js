@@ -7,14 +7,17 @@ import { useEffect, useRef, useState } from "react";
 import {
   ArrowRight,
   ChevronDown,
+  FileText,
   Lock,
   Menu,
   MessageCircle,
   Phone,
   PhoneCall,
+  RotateCcw,
   ShieldCheck,
   Star,
   Wrench,
+  CalendarX,
   X,
 } from "lucide-react";
 
@@ -25,12 +28,9 @@ const WHATSAPP_NUMBER = "17342622139";
 
 const navLinks = [
   { name: "Home", href: "/" },
-  { name: "All Leads", href: "/leads" },
-  { name: "Exclusive Leads", href: "/exclusive-leads" },
-  { name: "Product Pricing", href: "/product-pricing" },
-  { name: "Freight Shipping", href: "/freight-shipping" },
+
   {
-    name: "Our Leads",
+    name: "Services",
     children: [
       {
         name: "Lead Quality",
@@ -63,6 +63,39 @@ const navLinks = [
         desc: "Vehicle owners needing service",
       },
     ],
+    footer: { name: "Compare all packages", href: "/product-pricing" },
+  },
+  { name: "All Leads", href: "/leads" },
+  { name: "Exclusive Leads", href: "/exclusive-leads" },
+  // { name: "Freight Shipping", href: "/freight-shipping" },
+  {
+    name: "Our Policies",
+    children: [
+      {
+        name: "Privacy Policy",
+        href: "/privacypolicy",
+        icon: ShieldCheck,
+        desc: "How we collect and use your information",
+      },
+      {
+        name: "Refund Policy",
+        href: "/refundpolicy",
+        icon: RotateCcw,
+        desc: "Fees, cancellations, and claims",
+      },
+        {
+        name: "Cancellation Policy",
+        href: "/cancellationpolicy",
+        icon: CalendarX,
+        desc: "Fees, cancellations, and claims",
+      },
+      {
+        name: "Terms & Conditions",
+        href: "/terms-and-conditions",
+        icon: FileText,
+        desc: "Rules for using our services",
+      },
+    ],
   },
 ];
 
@@ -70,14 +103,13 @@ export default function Header() {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [mobileDropdown, setMobileDropdown] = useState(false);
+  // Name of the open dropdown ("Services", "Our Policies") or null
+  const [openMenu, setOpenMenu] = useState(null);
+  const [mobileMenu, setMobileMenu] = useState(null);
   const closeTimer = useRef(null);
 
   const isActive = (href) => (href === "/" ? pathname === "/" : pathname?.startsWith(href));
-  const dropdownActive = navLinks
-    .find((l) => l.children)
-    ?.children.some((c) => isActive(c.href));
+  const groupActive = (link) => link.children?.some((c) => isActive(c.href));
 
   // Shrink + shadow after scrolling
   useEffect(() => {
@@ -90,7 +122,7 @@ export default function Header() {
   // Close menus when the route changes
   useEffect(() => {
     setMobileOpen(false);
-    setDropdownOpen(false);
+    setOpenMenu(null);
   }, [pathname]);
 
   // Lock page scroll while the mobile drawer is open + close on Escape
@@ -99,7 +131,7 @@ export default function Header() {
     const onKey = (e) => {
       if (e.key === "Escape") {
         setMobileOpen(false);
-        setDropdownOpen(false);
+        setOpenMenu(null);
       }
     };
     window.addEventListener("keydown", onKey);
@@ -110,12 +142,12 @@ export default function Header() {
   }, [mobileOpen]);
 
   // Small delay so the dropdown doesn't flicker when moving the mouse
-  const openDropdown = () => {
+  const openDropdown = (name) => {
     clearTimeout(closeTimer.current);
-    setDropdownOpen(true);
+    setOpenMenu(name);
   };
   const closeDropdown = () => {
-    closeTimer.current = setTimeout(() => setDropdownOpen(false), 150);
+    closeTimer.current = setTimeout(() => setOpenMenu(null), 150);
   };
 
   return (
@@ -140,15 +172,7 @@ export default function Header() {
                 <Phone size={14} className="text-[#FE8A01]" />
                 {PHONE_DISPLAY}
               </a>
-              <a
-                href={`https://wa.me/${WHATSAPP_NUMBER}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 font-semibold transition hover:text-[#25D366]"
-              >
-                <MessageCircle size={14} className="text-[#25D366]" />
-                WhatsApp
-              </a>
+            
             </div>
           </div>
         </div>
@@ -186,16 +210,16 @@ export default function Header() {
                   <div
                     key={link.name}
                     className="relative"
-                    onMouseEnter={openDropdown}
+                    onMouseEnter={() => openDropdown(link.name)}
                     onMouseLeave={closeDropdown}
                   >
                     <button
                       type="button"
-                      onClick={() => setDropdownOpen((p) => !p)}
-                      aria-expanded={dropdownOpen}
+                      onClick={() => setOpenMenu((p) => (p === link.name ? null : link.name))}
+                      aria-expanded={openMenu === link.name}
                       aria-haspopup="true"
                       className={`group relative flex items-center gap-1.5 rounded-full px-4 py-2 text-[15px] font-semibold transition ${
-                        dropdownOpen || dropdownActive
+                        openMenu === link.name || groupActive(link)
                           ? "text-[#FE8A01]"
                           : "text-[#061B35] hover:text-[#FE8A01]"
                       }`}
@@ -203,14 +227,16 @@ export default function Header() {
                       {link.name}
                       <ChevronDown
                         size={16}
-                        className={`transition-transform duration-300 ${dropdownOpen ? "rotate-180" : ""}`}
+                        className={`transition-transform duration-300 ${
+                          openMenu === link.name ? "rotate-180" : ""
+                        }`}
                       />
                     </button>
 
                     {/* Dropdown panel */}
                     <div
                       className={`absolute right-0 top-full w-[360px] pt-4 transition-all duration-200 ${
-                        dropdownOpen
+                        openMenu === link.name
                           ? "visible translate-y-0 opacity-100"
                           : "invisible -translate-y-2 opacity-0"
                       }`}
@@ -250,13 +276,15 @@ export default function Header() {
                           );
                         })}
 
-                        <Link
-                          href="/product-pricing"
-                          className="mt-2 flex items-center justify-between rounded-xl bg-[#061B35] px-4 py-3 text-sm font-semibold text-white transition hover:bg-[#0E2A4D]"
-                        >
-                          Compare all packages
-                          <ArrowRight size={16} className="text-[#FE8A01]" />
-                        </Link>
+                        {link.footer && (
+                          <Link
+                            href={link.footer.href}
+                            className="mt-2 flex items-center justify-between rounded-xl bg-[#061B35] px-4 py-3 text-sm font-semibold text-white transition hover:bg-[#0E2A4D]"
+                          >
+                            {link.footer.name}
+                            <ArrowRight size={16} className="text-[#FE8A01]" />
+                          </Link>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -346,10 +374,10 @@ export default function Header() {
                 <div key={link.name} className="py-1">
                   <button
                     type="button"
-                    onClick={() => setMobileDropdown((p) => !p)}
-                    aria-expanded={mobileDropdown}
+                    onClick={() => setMobileMenu((p) => (p === link.name ? null : link.name))}
+                    aria-expanded={mobileMenu === link.name}
                     className={`flex w-full items-center justify-between rounded-xl px-4 py-3.5 font-semibold transition ${
-                      mobileDropdown || dropdownActive
+                      mobileMenu === link.name || groupActive(link)
                         ? "bg-[#FE8A01]/10 text-[#FE8A01]"
                         : "text-[#061B35] hover:bg-slate-50"
                     }`}
@@ -357,13 +385,17 @@ export default function Header() {
                     {link.name}
                     <ChevronDown
                       size={18}
-                      className={`transition-transform duration-300 ${mobileDropdown ? "rotate-180" : ""}`}
+                      className={`transition-transform duration-300 ${
+                        mobileMenu === link.name ? "rotate-180" : ""
+                      }`}
                     />
                   </button>
 
                   <div
                     className={`grid transition-all duration-300 ${
-                      mobileDropdown ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+                      mobileMenu === link.name
+                        ? "grid-rows-[1fr] opacity-100"
+                        : "grid-rows-[0fr] opacity-0"
                     }`}
                   >
                     <div className="overflow-hidden">

@@ -11,11 +11,13 @@ import {
   MapPin,
   MessageSquareText,
   Phone,
+  Send,
   User,
 } from "lucide-react";
 
-/* WhatsApp number: digits only, with country code (US = 1). No spaces, dashes or + sign. */
-const WHATSAPP_NUMBER = "17342622139";
+/* Contact details — change here if needed */
+const CONTACT_EMAIL = "info@digitalnetwork.com"; // TODO: replace with the real inbox
+const PHONE_TEL = "+17342622139";
 const DISPLAY_PHONE = "+1 (734) 262-2139";
 
 const services = [
@@ -32,12 +34,6 @@ const benefits = [
   "Verified customer contact details",
   "Plans that fit your brokerage",
 ];
-
-const WhatsAppIcon = ({ className }) => (
-  <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true">
-    <path d="M20.52 3.48A11.8 11.8 0 0 0 12.1 0C5.55 0 .22 5.33.22 11.88c0 2.1.55 4.16 1.6 5.98L.12 24l6.3-1.65a11.9 11.9 0 0 0 5.68 1.45h.01c6.55 0 11.88-5.33 11.88-11.88a11.8 11.8 0 0 0-3.47-8.44ZM12.1 21.78a9.9 9.9 0 0 1-5.04-1.38l-.36-.21-3.74.98 1-3.65-.24-.38a9.84 9.84 0 0 1-1.52-5.26c0-5.47 4.45-9.92 9.92-9.92a9.85 9.85 0 0 1 7.02 2.91 9.85 9.85 0 0 1 2.9 7.02c0 5.47-4.46 9.89-9.94 9.89Zm5.45-7.42c-.3-.15-1.77-.87-2.05-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.95 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.47-.89-.8-1.49-1.78-1.67-2.08-.17-.3-.02-.46.13-.6.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.38-.03-.53-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.28.3-1.04 1.02-1.04 2.49s1.07 2.89 1.22 3.09c.15.2 2.1 3.2 5.08 4.49.71.3 1.26.48 1.69.61.71.22 1.36.19 1.87.11.57-.09 1.77-.72 2.02-1.42.25-.7.25-1.3.17-1.42-.07-.13-.27-.2-.57-.35Z" />
-  </svg>
-);
 
 /* Input with an icon on the left */
 function Field({ id, label, icon: Icon, required, optional, ...props }) {
@@ -91,11 +87,10 @@ export default function QuickInquiry() {
       `Message: ${form.message || "No additional message"}`,
     ].join("\n");
 
-    window.open(
-      `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`,
-      "_blank",
-      "noopener,noreferrer"
-    );
+    const subject = `New inquiry: ${form.service} — ${form.name}`;
+    window.location.href = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(
+      subject
+    )}&body=${encodeURIComponent(text)}`;
     setSent(true);
   };
 
@@ -140,7 +135,7 @@ export default function QuickInquiry() {
 
             <p className="mt-5 max-w-md text-base leading-relaxed text-white/70">
               Tell us what you need and our team will help you find the right auto transport
-              lead solution. Your inquiry goes straight to us on WhatsApp.
+              lead solution. Your inquiry goes straight to our inbox by email.
             </p>
 
             <ul className="mt-8 space-y-3.5">
@@ -156,7 +151,7 @@ export default function QuickInquiry() {
           {/* Contact cards */}
           <div className="mt-12 grid gap-3 sm:grid-cols-2">
             <a
-              href={`tel:+${WHATSAPP_NUMBER}`}
+              href={`tel:${PHONE_TEL}`}
               className="group flex items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.06] p-4 backdrop-blur transition hover:border-[#FE8A01]/50 hover:bg-white/10"
             >
               <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#FE8A01] shadow-lg shadow-[#FE8A01]/30">
@@ -169,24 +164,22 @@ export default function QuickInquiry() {
             </a>
 
             <a
-              href={`https://wa.me/${WHATSAPP_NUMBER}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group flex items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.06] p-4 backdrop-blur transition hover:border-[#25D366]/50 hover:bg-white/10"
+              href={`mailto:${CONTACT_EMAIL}`}
+              className="group flex items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.06] p-4 backdrop-blur transition hover:border-[#1879D8]/60 hover:bg-white/10"
             >
-              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#25D366] shadow-lg shadow-[#25D366]/30">
-                <WhatsAppIcon className="h-5 w-5" />
+              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#1879D8] shadow-lg shadow-[#1879D8]/30">
+                <Mail className="h-5 w-5" />
               </span>
               <span className="min-w-0">
-                <span className="block text-xs text-white/55">Chat with us</span>
-                <span className="block text-sm font-bold">WhatsApp</span>
+                <span className="block text-xs text-white/55">Email us</span>
+                <span className="block truncate text-sm font-bold">{CONTACT_EMAIL}</span>
               </span>
             </a>
           </div>
 
           <div className="mt-5 flex items-center gap-2 text-xs text-white/50">
             <Clock className="h-4 w-4" />
-            Our team replies to WhatsApp inquiries as quickly as possible.
+            Our team replies to email inquiries as quickly as possible.
           </div>
         </div>
 
@@ -203,7 +196,7 @@ export default function QuickInquiry() {
             How Can We Help You?
           </h3>
           <p className="mt-3 text-sm leading-6 text-slate-500">
-            Fill in a few details. WhatsApp will open with your inquiry ready to send.
+            Fill in a few details. Your email app will open with your inquiry ready to send.
           </p>
 
           <form onSubmit={handleSubmit} className="mt-8 space-y-5">
@@ -295,10 +288,10 @@ export default function QuickInquiry() {
               className="group relative flex w-full items-center justify-center gap-3 overflow-hidden rounded-xl bg-gradient-to-r from-[#FE8A01] to-[#F59A1F] px-6 py-4 font-bold text-white shadow-[0_15px_35px_-12px_rgba(254,138,1,0.8)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_20px_40px_-12px_rgba(254,138,1,0.9)] focus:outline-none focus-visible:ring-4 focus-visible:ring-[#FE8A01]/30"
             >
               <span className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/30 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
-              <WhatsAppIcon className="relative h-5 w-5" />
+              <Send className="relative h-5 w-5" />
               <span className="relative">
-                <span className="sm:hidden">Send via WhatsApp</span>
-                <span className="hidden sm:inline">Send Inquiry via WhatsApp</span>
+                <span className="sm:hidden">Send via Email</span>
+                <span className="hidden sm:inline">Send Inquiry via Email</span>
               </span>
               <ArrowRight className="relative h-5 w-5 transition-transform group-hover:translate-x-1" />
             </button>
@@ -306,13 +299,19 @@ export default function QuickInquiry() {
             {sent ? (
               <p className="flex items-center justify-center gap-2 rounded-xl bg-emerald-50 px-4 py-3 text-center text-sm font-medium text-emerald-700">
                 <CheckCircle2 className="h-4 w-4 shrink-0" />
-                WhatsApp opened. Press <strong>Send</strong> there to deliver your inquiry.
+                Email app opened. Press <strong>Send</strong> there to deliver your inquiry.
               </p>
             ) : (
               <p className="text-center text-xs leading-5 text-slate-500">
-                WhatsApp will open with your details filled in. Just press Send.
+                Your email app will open with your details filled in. Just press Send.
               </p>
             )}
+            <p className="text-center text-xs text-slate-400">
+              Email app not opening? Write to us directly at{" "}
+              <a href={`mailto:${CONTACT_EMAIL}`} className="font-semibold text-[#1879D8] hover:underline">
+                {CONTACT_EMAIL}
+              </a>
+            </p>
           </form>
         </div>
       </div>
