@@ -14,8 +14,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "Groupon Freight - Auto Transport Leads & Vehicle Shipping Solutions",
-  description: "Groupon Freight is a leading provider of auto transport leads and vehicle shipping solutions, helping brokers and businesses connect with potential customers through flexible lead generation services.",
+  title: "Digital Networks - Auto Transport Leads & Vehicle Shipping Solutions",
+  description: "Digital Networks is a leading provider of auto transport leads and vehicle shipping solutions. We connect customers with reliable transport services for their vehicles, ensuring a seamless and efficient shipping experience.",
 };
 
 export default function RootLayout({ children }) {
