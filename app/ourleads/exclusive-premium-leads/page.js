@@ -1,281 +1,295 @@
-"use client";
 import Link from "next/link";
 import {
   ArrowRight,
   CheckCircle2,
-  ShieldCheck,
-  TrendingUp,
-  Users,
-  DollarSign,
+  Clock,
+  FileText,
+  Globe,
+  Headphones,
   Lock,
-  Star,
-  Zap,
-  Target,
-  BadgeCheck,
-  Mail,
+  MessageCircle,
+  PhoneCall,
   Truck,
+  User,
+  X,
 } from "lucide-react";
 
-const exclusiveBenefits = [
+/* WhatsApp number: digits only with country code (US = 1) */
+const WHATSAPP_NUMBER = "17342622139";
+const WA_LINK = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
+  "Hello Digital Network! I'm interested in Exclusive Leads."
+)}`;
+const MIN_ORDER = 300;
+
+/* Same figures as the pricing page */
+const tiers = [
+  { name: "Shared", brokers: 10, price: "$2.75" },
+  { name: "Premium", brokers: 4, price: "$5" },
+  { name: "Exclusive", brokers: 1, price: "$20", you: true },
+];
+
+const packages = [
   {
-    icon: Lock,
-    title: "Yours Alone",
-    description:
-      "Every exclusive lead is delivered to one broker only — you. No other GrouponFreight client receives the same contact, giving you an uncontested path to close the sale.",
+    icon: Truck,
+    name: "Domestic Exclusive",
+    price: 20,
+    text: "Customers shipping vehicles within the U.S., delivered to you alone.",
   },
   {
-    icon: BadgeCheck,
-    title: "Verified & Qualified",
-    description:
-      "Each lead goes through a thorough verification process before it reaches you. We confirm intent, contact accuracy, and shipment relevance so your team can act with confidence.",
-  },
-  {
-    icon: Zap,
-    title: "Instant Delivery",
-    description:
-      "The moment your order is confirmed, leads are sent directly to your team. Fast delivery means you can reach the customer while their interest is highest.",
-  },
-  {
-    icon: Target,
-    title: "Highest Conversion Potential",
-    description:
-      "Exclusive leads are selected from our highest-intent inquiries. These are customers actively seeking auto transport — not casual browsers.",
-  },
-  {
-    icon: Users,
-    title: "Personalized Customer Service",
-    description:
-      "We don't just send a list and disappear. GrouponFreight works alongside your team to understand your sales process and help you get the most from every lead.",
-  },
-  {
-    icon: TrendingUp,
-    title: "Long-Term Partnership",
-    description:
-      "Our best clients work with us as a true partner — not just a vendor. We learn your workflow, streamline lead delivery, and help your pipeline grow over time.",
+    icon: Globe,
+    name: "International Exclusive",
+    price: 10,
+    text: "Customers shipping vehicles overseas, delivered to you alone.",
   },
 ];
 
-const comparisons = [
+const without = [
+  "Several brokers call the same customer",
+  "The customer compares quotes from everyone",
+  "You race to call first, every single time",
+  "Price often becomes the only thing that matters",
+];
+
+const withExclusive = [
+  "The lead goes to one broker: you",
+  "You can take time to understand the shipment",
+  "Your service and expertise can make the sale",
+  "Every follow-up is your own conversation",
+];
+
+const benefits = [
   {
-    feature: "Brokers receiving the same lead",
-    shared: "Up to 10",
-    premium: "Up to 4",
-    exclusive: "Only you",
+    icon: Lock,
+    title: "Yours Alone",
+    text: "Each exclusive lead is sent to a single broker. Nobody else from Digital Network gets the same contact.",
   },
   {
-    feature: "Competition on each lead",
-    shared: "High",
-    premium: "Moderate",
-    exclusive: "None",
+    icon: PhoneCall,
+    title: "A Calmer First Call",
+    text: "Without a crowd of callers, you can focus on listening and giving a thoughtful quote instead of rushing.",
   },
   {
-    feature: "Verification depth",
-    shared: "Standard",
-    premium: "Enhanced",
-    exclusive: "In-depth",
+    icon: Clock,
+    title: "Fast Delivery",
+    text: "Leads reach you soon after a customer requests a quote, while their interest is still high.",
   },
   {
-    feature: "Conversion potential",
-    shared: "Good",
-    premium: "Better",
-    exclusive: "Best",
+    icon: FileText,
+    title: "Shipment Details Included",
+    text: "When the customer provides them, you'll see vehicle, route and timing details before you call.",
   },
   {
-    feature: "Best for",
-    shared: "High-volume teams",
-    premium: "Growing pipelines",
-    exclusive: "Maximum close rate",
+    icon: Headphones,
+    title: "Real Support",
+    text: "Our team helps you understand your package and get the most out of every lead you receive.",
   },
 ];
 
 export default function ExclusiveLeadsPage() {
   return (
-    <main className="min-h-screen bg-white text-slate-900">
+    <main className="min-h-screen overflow-hidden bg-white text-[#061B35]">
+      <style>{`
+        @keyframes exGlow { 0%,100% { box-shadow: 0 0 0 0 rgba(254,138,1,.55); } 50% { box-shadow: 0 0 0 10px rgba(254,138,1,0); } }
+        .ex-you { animation: exGlow 2s ease-out infinite; }
+        @media (prefers-reduced-motion: reduce) { .ex-you { animation: none; } }
+      `}</style>
 
-      {/* ══════════════════════════════════════
-          HERO
-      ══════════════════════════════════════ */}
-      <section className="relative isolate overflow-hidden bg-[#0f1f33]">
-        <div className="absolute -left-40 -top-40 h-[520px] w-[520px] rounded-full bg-orange-500/10 blur-3xl pointer-events-none" />
-        <div className="absolute right-0 bottom-0 h-96 w-96 rounded-full bg-orange-600/8 blur-2xl pointer-events-none" />
+      {/* ═════════════════ HERO ═════════════════ */}
+      <section className="relative isolate overflow-hidden bg-[#061B35] px-6 py-24 sm:px-10 lg:py-32">
+        <div
+          className="pointer-events-none absolute inset-0 -z-10 opacity-[0.06]"
+          style={{
+            backgroundImage:
+              "linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)",
+            backgroundSize: "60px 60px",
+          }}
+        />
+        <div className="pointer-events-none absolute -right-40 top-10 -z-10 h-[520px] w-[520px] rounded-full bg-[#FE8A01]/20 blur-[140px]" />
+        <div className="pointer-events-none absolute -bottom-40 -left-40 -z-10 h-[480px] w-[480px] rounded-full bg-[#1879D8]/25 blur-[140px]" />
 
-        <div className="mx-auto max-w-7xl px-6 py-24 sm:px-10 sm:py-32">
-          <div className="max-w-3xl">
-            {/* Eyebrow */}
-            <div className="mb-7 inline-flex items-center gap-2 rounded-full border border-orange-400/30 bg-orange-500/10 px-4 py-1.5 text-sm font-semibold text-orange-300">
-              <Star size={14} className="fill-orange-400 text-orange-400" />
-              Exclusive Lead Packages — GrouponFreight
-            </div>
+        <div className="mx-auto grid max-w-7xl items-center gap-16 lg:grid-cols-2">
+          <div>
+            <span className="inline-flex items-center gap-2 rounded-full bg-[#FE8A01] px-4 py-2 text-xs font-bold uppercase tracking-[0.2em] text-white">
+              <Lock size={14} />
+              Exclusive Leads
+            </span>
 
-            <h1 className="text-4xl font-extrabold leading-[1.08] tracking-tight text-white sm:text-5xl lg:text-6xl">
-              One Lead.{" "}
-              <span className="text-orange-400">One Broker.</span>
-              <br className="hidden sm:block" /> No Competition.
+            <h1 className="mt-7 text-5xl font-black leading-[1.02] tracking-tight text-white sm:text-6xl lg:text-7xl">
+              One Lead.
+              <br />
+              One Broker.
+              <br />
+              <span className="text-[#FE8A01]">You.</span>
             </h1>
 
-            <p className="mt-6 max-w-2xl text-lg leading-8 text-white/65">
-              Exclusive leads from GrouponFreight go to a single broker — you.
-              No competing against other companies for the same customer. Just
-              a direct, verified connection with someone actively looking to
-              ship their vehicle.
+            <p className="mt-7 max-w-lg text-lg leading-relaxed text-white/65">
+              Exclusive leads from Digital Network go to a single broker. No other companies
+              calling the same customer, just a direct conversation with someone who wants to
+              ship a vehicle.
             </p>
 
-            <div className="mt-9 flex flex-wrap gap-4">
+            <div className="mt-9 flex flex-wrap items-center gap-4">
               <Link
                 href="/product-pricing"
-                className="inline-flex items-center gap-2 rounded-xl bg-orange-500 px-8 py-3.5 font-bold text-white shadow-lg shadow-orange-900/40 transition hover:bg-orange-400 active:scale-95"
+                className="group inline-flex items-center gap-2 rounded-xl bg-[#FE8A01] px-8 py-4 font-bold text-white shadow-[0_12px_30px_-10px_rgba(254,138,1,0.9)] transition hover:bg-[#E97900]"
               >
                 Order Exclusive Leads
-                <ArrowRight size={18} />
+                <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
               </Link>
               <a
-                href="mailto:info@grouponfreight.org"
-                className="inline-flex items-center gap-2 rounded-xl border border-white/20 px-8 py-3.5 font-semibold text-white transition hover:bg-white/10"
-                style={{ backgroundColor: "rgba(255,255,255,0.06)" }}
+                href={WA_LINK}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-xl border border-white/20 px-8 py-4 font-bold text-white transition hover:bg-white/10"
               >
-                <Mail size={17} />
+                <MessageCircle size={18} className="text-[#25D366]" />
                 Talk to Our Team
               </a>
             </div>
+          </div>
 
-            {/* Trust badges */}
-            <div className="mt-12 flex flex-wrap gap-5">
-              {[
-                { icon: ShieldCheck, label: "1 Broker Per Lead" },
-                { icon: BadgeCheck, label: "Verified Contacts" },
-                { icon: Zap, label: "Instant Delivery" },
-              ].map((b) => {
-                const Icon = b.icon;
-                return (
-                  <div
-                    key={b.label}
-                    className="flex items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-4 py-2.5 text-sm font-semibold text-white/80 backdrop-blur-sm"
-                  >
-                    <Icon size={16} className="text-orange-400" />
-                    {b.label}
+          {/* "Who calls this customer?" visual */}
+          <div className="rounded-[28px] border border-white/10 bg-white/[0.04] p-7 backdrop-blur sm:p-9">
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-white/40">
+              Who calls this customer?
+            </p>
+
+            <div className="mt-7 space-y-6">
+              {tiers.map((t) => (
+                <div key={t.name}>
+                  <div className="flex items-center justify-between">
+                    <p className={`font-bold ${t.you ? "text-[#FE8A01]" : "text-white"}`}>
+                      {t.name}
+                    </p>
+                    <p className="text-sm text-white/50">
+                      {t.brokers === 1 ? "1 broker" : `Up to ${t.brokers} brokers`} · {t.price}/lead
+                    </p>
                   </div>
-                );
-              })}
+                  <div
+                    className={`mt-3 flex flex-wrap gap-2 rounded-2xl p-3 ${
+                      t.you ? "bg-[#FE8A01]/10 ring-1 ring-[#FE8A01]/40" : "bg-white/[0.03]"
+                    }`}
+                  >
+                    {Array.from({ length: t.brokers }).map((_, i) =>
+                      t.you ? (
+                        <span
+                          key={i}
+                          className="ex-you inline-flex items-center gap-2 rounded-full bg-[#FE8A01] py-1.5 pl-1.5 pr-4 text-sm font-bold text-white"
+                        >
+                          <span className="flex h-7 w-7 items-center justify-center rounded-full bg-white text-[#FE8A01]">
+                            <User size={15} />
+                          </span>
+                          Only you
+                        </span>
+                      ) : (
+                        <span
+                          key={i}
+                          className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white/50"
+                        >
+                          <User size={16} />
+                        </span>
+                      )
+                    )}
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
       </section>
 
-      {/* ══════════════════════════════════════
-          PROBLEM STATEMENT
-      ══════════════════════════════════════ */}
-      <section className="border-b border-slate-100 px-6 py-20 sm:px-10 sm:py-24">
-        <div className="mx-auto max-w-7xl">
-          <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
-            <div>
-              <p className="text-xs font-bold uppercase tracking-[0.22em] text-orange-500">
-                The Problem with Shared Lists
-              </p>
-              <h2 className="mt-3 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
-                Competing Blind Is a Losing Strategy
-              </h2>
-              <div className="mt-6 space-y-5 text-base leading-8 text-slate-600">
-                <p>
-                  The auto transport market is crowded. Many brokers spend
-                  thousands of dollars every month on search ads, SEO, and
-                  marketing campaigns — often ranking for less competitive
-                  keywords and still not knowing who else is chasing the same
-                  customers. That&apos;s a lot of budget with very little
-                  certainty.
-                </p>
-                <p>
-                  Even when shared leads do come in, there&apos;s no way of
-                  knowing how many other brokers received the same contact.
-                  You&apos;re fighting for the customer&apos;s attention
-                  without knowing who your competitors are — a classic
-                  hit-and-hope strategy that burns resources without
-                  predictable results.
-                </p>
-                <p>
-                  GrouponFreight&apos;s exclusive leads solve this entirely.
-                  When you order exclusive leads, that customer&apos;s
-                  information belongs to you — and only you. No guesswork, no
-                  blind competition, just a focused opportunity to close.
-                </p>
-              </div>
-            </div>
-
-            {/* Stat cards */}
-            <div className="grid grid-cols-2 gap-4">
-              {[
-                {
-                  icon: DollarSign,
-                  stat: "Thousands",
-                  label: "Spent monthly on marketing by average brokers — often with unpredictable returns.",
-                },
-                {
-                  icon: Users,
-                  stat: "Up to 10x",
-                  label: "More competitors sharing the same lead on a standard shared list.",
-                },
-                {
-                  icon: Target,
-                  stat: "#1",
-                  label: "GrouponFreight ranks among the highest conversion rates for exclusive leads in the industry.",
-                },
-                {
-                  icon: ShieldCheck,
-                  stat: "100%",
-                  label: "Exclusive — no other GrouponFreight client receives your lead.",
-                },
-              ].map((card) => {
-                const Icon = card.icon;
-                return (
-                  <div
-                    key={card.label}
-                    className="rounded-2xl border border-slate-100 bg-slate-50 p-6 transition hover:border-orange-200 hover:bg-orange-50/40"
-                  >
-                    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-orange-500 text-white">
-                      <Icon size={19} />
-                    </div>
-                    <p className="mt-4 text-2xl font-extrabold text-[#0f1f33]">{card.stat}</p>
-                    <p className="mt-1 text-xs leading-5 text-slate-500">{card.label}</p>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ══════════════════════════════════════
-          WHAT EXCLUSIVE MEANS FOR YOU
-      ══════════════════════════════════════ */}
-      <section className="bg-slate-50 px-6 py-20 sm:px-10 sm:py-24">
-        <div className="mx-auto max-w-7xl">
+      {/* ═════════════════ WITHOUT vs WITH ═════════════════ */}
+      <section className="px-6 py-20 sm:px-10 lg:py-28">
+        <div className="mx-auto max-w-6xl">
           <div className="mx-auto max-w-2xl text-center">
-            <p className="text-xs font-bold uppercase tracking-[0.22em] text-orange-500">
+            <p className="text-sm font-bold uppercase tracking-[0.2em] text-[#FE8A01]">
+              Why It Matters
+            </p>
+            <h2 className="mt-4 text-3xl font-black tracking-tight sm:text-4xl lg:text-5xl">
+              Stop Racing the Crowd
+            </h2>
+            <p className="mt-5 text-lg leading-relaxed text-slate-600">
+              With shared leads, you never know how many other brokers are calling. Exclusive
+              leads change how the first conversation starts.
+            </p>
+          </div>
+
+          <div className="mt-14 grid gap-6 md:grid-cols-2">
+            <div className="rounded-3xl border border-slate-200 bg-slate-50 p-8 sm:p-10">
+              <p className="text-sm font-bold uppercase tracking-[0.2em] text-slate-400">
+                Crowded lead
+              </p>
+              <h3 className="mt-2 text-2xl font-extrabold text-slate-500">Everyone calls</h3>
+              <ul className="mt-7 space-y-4">
+                {without.map((item) => (
+                  <li key={item} className="flex items-start gap-3 text-slate-500">
+                    <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-slate-200">
+                      <X size={14} className="text-slate-500" />
+                    </span>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="relative overflow-hidden rounded-3xl bg-[#061B35] p-8 text-white shadow-[0_30px_60px_-25px_rgba(6,27,53,0.55)] sm:p-10">
+              <div className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full bg-[#FE8A01]/25 blur-3xl" />
+              <p className="relative text-sm font-bold uppercase tracking-[0.2em] text-[#FE8A01]">
+                Exclusive lead
+              </p>
+              <h3 className="relative mt-2 text-2xl font-extrabold">Only you call</h3>
+              <ul className="relative mt-7 space-y-4">
+                {withExclusive.map((item) => (
+                  <li key={item} className="flex items-start gap-3 text-white/85">
+                    <CheckCircle2 size={22} className="mt-0.5 shrink-0 text-[#FE8A01]" />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ═════════════════ BENEFITS (sticky list) ═════════════════ */}
+      <section className="bg-[#F5F8FC] px-6 py-20 sm:px-10 lg:py-28">
+        <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20">
+          <div className="lg:sticky lg:top-32 lg:self-start">
+            <p className="text-sm font-bold uppercase tracking-[0.2em] text-[#FE8A01]">
               What You Get
             </p>
-            <h2 className="mt-3 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
-              What Exclusive Leads Mean for Your Business
+            <h2 className="mt-4 text-3xl font-black leading-tight tracking-tight sm:text-4xl lg:text-5xl">
+              What Exclusive Means for Your Business
             </h2>
-            <p className="mt-4 text-base leading-7 text-slate-500">
-              Exclusivity isn&apos;t just a selling point — it changes the
-              entire dynamic of your sales conversation. When a customer
-              hears only from you, the relationship starts differently.
+            <p className="mt-5 text-lg leading-relaxed text-slate-600">
+              When a customer hears from just one broker, the relationship starts on a better
+              footing.
             </p>
+            <Link
+              href="/product-pricing"
+              className="group mt-8 inline-flex items-center gap-2 font-bold text-[#1879D8]"
+            >
+              See pricing
+              <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
+            </Link>
           </div>
 
-          <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {exclusiveBenefits.map((b) => {
+          <div className="divide-y divide-slate-200 rounded-3xl bg-white px-7 shadow-[0_20px_50px_-30px_rgba(6,27,53,0.35)] ring-1 ring-slate-200/70 sm:px-10">
+            {benefits.map((b, i) => {
               const Icon = b.icon;
               return (
-                <div
-                  key={b.title}
-                  className="group flex flex-col gap-4 rounded-2xl border border-slate-200 bg-white p-7 shadow-sm transition hover:-translate-y-1 hover:border-orange-300 hover:shadow-lg"
-                >
-                  <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-orange-500 text-white shadow-md shadow-orange-200 transition group-hover:bg-orange-600">
-                    <Icon size={21} />
+                <div key={b.title} className="group flex gap-6 py-8">
+                  <div className="flex flex-col items-center">
+                    <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[#061B35] text-white transition group-hover:bg-[#FE8A01]">
+                      <Icon size={24} />
+                    </span>
+                    <span className="mt-2 text-xs font-bold text-slate-300">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
                   </div>
                   <div>
-                    <h3 className="text-base font-bold text-slate-900">{b.title}</h3>
-                    <p className="mt-2 text-sm leading-7 text-slate-500">{b.description}</p>
+                    <h3 className="text-xl font-extrabold">{b.title}</h3>
+                    <p className="mt-2 text-[15px] leading-relaxed text-slate-600">{b.text}</p>
                   </div>
                 </div>
               );
@@ -284,144 +298,104 @@ export default function ExclusiveLeadsPage() {
         </div>
       </section>
 
-      {/* ══════════════════════════════════════
-          COMPARISON TABLE
-      ══════════════════════════════════════ */}
-      <section className="px-6 py-20 sm:px-10 sm:py-24">
+      {/* ═════════════════ PACKAGES ═════════════════ */}
+      <section className="px-6 py-20 sm:px-10 lg:py-28">
         <div className="mx-auto max-w-5xl">
           <div className="mx-auto max-w-2xl text-center">
-            <p className="text-xs font-bold uppercase tracking-[0.22em] text-orange-500">
-              Side by Side
+            <p className="text-sm font-bold uppercase tracking-[0.2em] text-[#FE8A01]">
+              Exclusive Packages
             </p>
-            <h2 className="mt-3 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
-              How Exclusive Compares
+            <h2 className="mt-4 text-3xl font-black tracking-tight sm:text-4xl">
+              Domestic or International
             </h2>
-            <p className="mt-4 text-base leading-7 text-slate-500">
-              See why brokers who want the highest close rate choose exclusive
-              leads over shared alternatives.
+            <p className="mt-4 text-slate-600">
+              Both are delivered to one broker only. Minimum order is ${MIN_ORDER}.
             </p>
           </div>
 
-          <div className="mt-12 overflow-hidden rounded-2xl border border-slate-200 shadow-sm">
-            {/* Header */}
-            <div className="grid grid-cols-4 bg-[#0f1f33] text-center text-xs font-bold uppercase tracking-widest text-white">
-              <div className="px-4 py-4 text-left text-white/50">Feature</div>
-              <div className="px-4 py-4">Shared</div>
-              <div className="px-4 py-4">Premium</div>
-              <div className="bg-orange-500 px-4 py-4">Exclusive</div>
-            </div>
-
-            {comparisons.map((row, i) => (
-              <div
-                key={row.feature}
-                className={`grid grid-cols-4 border-t border-slate-100 text-center text-sm ${
-                  i % 2 === 0 ? "bg-white" : "bg-slate-50"
-                }`}
-              >
-                <div className="px-4 py-4 text-left font-semibold text-slate-700">
-                  {row.feature}
-                </div>
-                <div className="px-4 py-4 text-slate-500">{row.shared}</div>
-                <div className="px-4 py-4 text-slate-500">{row.premium}</div>
-                <div className="bg-orange-50 px-4 py-4 font-bold text-orange-600 ring-1 ring-inset ring-orange-100">
-                  {row.exclusive}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ══════════════════════════════════════
-          CHOOSE QUALITY — CTA SECTION
-      ══════════════════════════════════════ */}
-      <section className="bg-[#0f1f33] px-6 py-20 sm:px-10 sm:py-24">
-        <div className="mx-auto max-w-7xl">
-          <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
-            <div>
-              <p className="text-xs font-bold uppercase tracking-[0.22em] text-orange-400">
-                Choose Quality
-              </p>
-              <h2 className="mt-3 text-3xl font-extrabold leading-tight text-white sm:text-4xl">
-                Stop Guessing.{" "}
-                <span className="text-orange-400">Start Closing.</span>
-              </h2>
-              <p className="mt-5 text-base leading-8 text-white/60">
-                Auto transport brokers who rely on shared lists are always
-                fighting battles they can&apos;t see. GrouponFreight&apos;s
-                exclusive leads give your team a clear, direct path to the
-                customer — no unknown competitors, no wasted follow-ups.
-              </p>
-              <p className="mt-4 text-base leading-8 text-white/60">
-                Our team takes great care in verifying every exclusive lead
-                before delivery. We&apos;re proud to offer the highest
-                conversion rates in the industry — because we believe quality
-                is worth paying for, and so do our clients.
-              </p>
-
-              <div className="mt-9 flex flex-wrap gap-4">
-                <Link
-                  href="/product-pricing"
-                  className="inline-flex items-center gap-2 rounded-xl bg-orange-500 px-8 py-3.5 font-bold text-white shadow-lg shadow-orange-900/40 transition hover:bg-orange-400 active:scale-95"
+          <div className="mt-12 grid gap-6 md:grid-cols-2">
+            {packages.map((p) => {
+              const Icon = p.icon;
+              const minLeads = Math.ceil(MIN_ORDER / p.price);
+              return (
+                <div
+                  key={p.name}
+                  className="group relative overflow-hidden rounded-3xl border-2 border-slate-200 p-8 transition hover:border-[#FE8A01] sm:p-10"
                 >
-                  Order Exclusive Leads
-                  <ArrowRight size={17} />
-                </Link>
-                <a
-                  href="mailto:info@grouponfreight.org?subject=Exclusive%20Lead%20Inquiry"
-                  className="inline-flex items-center gap-2 rounded-xl border border-white/20 px-8 py-3.5 font-semibold text-white transition hover:bg-white/10"
-                  style={{ backgroundColor: "rgba(255,255,255,0.06)" }}
-                >
-                  <Mail size={17} />
-                  Contact Our Team
-                </a>
-              </div>
-            </div>
-
-            {/* Checklist */}
-            <div className="rounded-2xl border border-white/10 bg-white/5 p-8 backdrop-blur-sm">
-              <p className="text-sm font-bold uppercase tracking-widest text-orange-400">
-                Exclusive leads include
-              </p>
-              <ul className="mt-6 space-y-4">
-                {[
-                  "Delivered to one broker only — no shared distribution",
-                  "In-depth verification before every delivery",
-                  "Customer contact and shipment details included",
-                  "Instant delivery upon order confirmation",
-                  "Domestic and international options available",
-                  "Personalized support from the GrouponFreight team",
-                  "Minimum order starting at just $300",
-                ].map((item) => (
-                  <li
-                    key={item}
-                    className="flex items-start gap-3 text-sm text-white/75"
-                  >
-                    <CheckCircle2
-                      size={17}
-                      className="mt-0.5 shrink-0 text-orange-400"
-                    />
-                    {item}
-                  </li>
-                ))}
-              </ul>
-
-              <div className="mt-8 border-t border-white/10 pt-6 flex items-center gap-3">
-                <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-orange-500">
-                  <Truck size={16} className="text-white" />
-                </div>
-                <div>
-                  <p className="text-xs text-white/35">Get in touch</p>
-                  <p className="text-sm font-semibold text-white">
-                    info@grouponfreight.org
+                  <div className="flex items-center justify-between">
+                    <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[#FE8A01]/10 text-[#FE8A01] transition group-hover:bg-[#FE8A01] group-hover:text-white">
+                      <Icon size={26} />
+                    </span>
+                    <span className="inline-flex items-center gap-1.5 rounded-full bg-[#061B35] px-3 py-1 text-xs font-bold text-white">
+                      <Lock size={12} />1 broker
+                    </span>
+                  </div>
+                  <h3 className="mt-6 text-2xl font-extrabold">{p.name}</h3>
+                  <p className="mt-2 text-slate-600">{p.text}</p>
+                  <p className="mt-6 flex items-baseline gap-1.5">
+                    <span className="text-5xl font-black tracking-tight">${p.price}</span>
+                    <span className="font-semibold text-slate-400">/ lead</span>
                   </p>
+                  <p className="mt-1 text-sm text-slate-500">
+                    Minimum {minLeads} leads (${MIN_ORDER})
+                  </p>
+                  <Link
+                    href="/product-pricing"
+                    className="mt-7 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#061B35] px-6 py-4 font-bold text-white transition group-hover:bg-[#FE8A01]"
+                  >
+                    Order {p.name}
+                    <ArrowRight size={18} />
+                  </Link>
                 </div>
-              </div>
-            </div>
+              );
+            })}
           </div>
+          <p className="mt-6 text-center text-xs text-slate-400">
+            Prices may change with demand and availability. We confirm the current price with
+            you before every order.
+          </p>
         </div>
       </section>
 
+      {/* ═════════════════ CTA ═════════════════ */}
+      <section className="relative isolate overflow-hidden bg-[#061B35] px-6 py-20 sm:px-10 lg:py-24">
+        <div className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[420px] w-[420px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#FE8A01]/20 blur-[120px]" />
+
+        <div className="mx-auto max-w-3xl text-center">
+          <span className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-[#FE8A01] text-white shadow-[0_15px_35px_-10px_rgba(254,138,1,0.8)]">
+            <Lock size={28} />
+          </span>
+          <h2 className="mt-7 text-3xl font-black leading-tight text-white sm:text-5xl">
+            Stop Guessing. <span className="text-[#FE8A01]">Start Closing.</span>
+          </h2>
+          <p className="mx-auto mt-5 max-w-xl text-lg leading-relaxed text-white/65">
+            Give your team a direct path to the customer. Talk to us about exclusive leads for
+            your brokerage.
+          </p>
+          <div className="mt-9 flex flex-col justify-center gap-3 sm:flex-row">
+            <Link
+              href="/product-pricing"
+              className="group inline-flex items-center justify-center gap-2 rounded-xl bg-[#FE8A01] px-8 py-4 font-bold text-white transition hover:bg-[#E97900]"
+            >
+              Order Exclusive Leads
+              <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
+            </Link>
+            <a
+              href={WA_LINK}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 rounded-xl bg-white px-8 py-4 font-bold text-[#061B35] transition hover:-translate-y-0.5"
+            >
+              <MessageCircle size={18} className="text-[#25D366]" />
+              WhatsApp Us
+            </a>
+          </div>
+          <p className="mx-auto mt-8 max-w-xl text-xs leading-5 text-white/40">
+            Exclusive leads remove competition from other Digital Network clients but do not
+            guarantee bookings. Results depend on your follow-up and sales process.
+          </p>
+        </div>
+      </section>
     </main>
   );
 }

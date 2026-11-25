@@ -1,228 +1,256 @@
-"use client";
 import Link from "next/link";
 import {
   ArrowRight,
+  BadgeCheck,
+  Building2,
   CheckCircle2,
+  ChevronDown,
   Clock,
   FileText,
-  LayoutGrid,
-  Headphones,
-  TrendingUp,
-  Users,
+  Gauge,
+  MessageCircle,
+  Rocket,
   ShieldCheck,
-  PhoneCall,
   Star,
-  Truck,
-  Mail,
+  User,
+  Users,
 } from "lucide-react";
 
-const valueProps = [
+/* WhatsApp number: digits only with country code (US = 1) */
+const WHATSAPP_NUMBER = "17342622139";
+const WA_LINK = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
+  "Hello Digital Network! I'm interested in Premium Leads."
+)}`;
+
+/* Same figures as the pricing page */
+const PRICE = 5;
+const MAX_BROKERS = 4;
+const MIN_ORDER = 300;
+const MIN_LEADS = Math.ceil(MIN_ORDER / PRICE);
+
+const spectrum = [
+  { icon: Users, name: "Shared", brokers: "Up to 10 brokers", price: "$2.75" },
+  { icon: Star, name: "Premium", brokers: `Up to ${MAX_BROKERS} brokers`, price: `$${PRICE}`, active: true },
+  { icon: ShieldCheck, name: "Exclusive", brokers: "1 broker only", price: "$20" },
+];
+
+const reasons = [
   {
-    icon: Users,
-    title: "Relevant Customer Inquiries",
-    description:
-      "Reach potential customers who have expressed interest in vehicle transportation services, helping your team focus on conversations that matter to your business.",
+    icon: Gauge,
+    title: "Less Competition",
+    text: `Each lead goes to ${MAX_BROKERS} brokers at most, so you're not fighting a crowd for every customer.`,
   },
   {
     icon: Clock,
-    title: "Timely Lead Delivery",
-    description:
-      "Access lead information through an efficient delivery process so your sales representatives can follow up promptly and respond to customer inquiries.",
+    title: "Fast Delivery",
+    text: "Leads reach you soon after the customer asks for a quote, while interest is still high.",
   },
   {
     icon: FileText,
-    title: "Useful Shipping Details",
-    description:
-      "Where available, customer and shipment information can help your team better understand transportation requirements, prepare quotes, and recommend appropriate services.",
+    title: "Useful Shipment Details",
+    text: "When provided, you'll see the vehicle, route and timing so you can quote with confidence.",
   },
   {
-    icon: LayoutGrid,
-    title: "Flexible Lead Options",
-    description:
-      "Choose lead solutions that align with your business objectives, sales capacity, and customer acquisition strategy.",
-  },
-  {
-    icon: Headphones,
-    title: "Business-Focused Support",
-    description:
-      "We aim to build long-term relationships with our clients by helping them understand their lead options and choose solutions that fit their operational needs.",
-  },
-  {
-    icon: TrendingUp,
-    title: "Consistent Pipeline Growth",
-    description:
-      "Without a consistent approach to lead generation, businesses may struggle to keep their sales teams productive. GrouponFreight helps you stay ahead.",
+    icon: BadgeCheck,
+    title: "Fair Price Point",
+    text: "More focused than shared leads, without the higher cost of fully exclusive ones.",
   },
 ];
 
-const leadTypes = [
+const personas = [
   {
-    icon: Users,
-    label: "Shared Leads",
-    desc: "Budget-friendly leads shared with multiple brokers — best for high-volume sales teams.",
+    icon: User,
+    title: "Independent Brokers",
+    text: "Get a steady flow of quality inquiries without paying exclusive prices.",
   },
   {
-    icon: Star,
-    label: "Premium Leads",
-    desc: "Less competition, higher intent — suited for growing brokerages building a stronger pipeline.",
+    icon: Rocket,
+    title: "Growing Teams",
+    text: "Keep a small sales team busy with leads that have less competition.",
   },
   {
-    icon: ShieldCheck,
-    label: "Exclusive Leads",
-    desc: "One broker per lead — maximum opportunity with every prospective customer.",
-  },
-  {
-    icon: PhoneCall,
-    label: "Live Transport Calls",
-    desc: "Speak directly with customers in real time — ideal for teams that close over the phone.",
+    icon: Building2,
+    title: "Established Operations",
+    text: "Add premium leads next to your own marketing to keep the pipeline full.",
   },
 ];
 
-const stats = [
-  { value: "10K+", label: "Leads Delivered" },
-  { value: "500+", label: "Broker Partners" },
-  { value: "98%", label: "Client Satisfaction" },
-  { value: "$300", label: "Minimum Order" },
+const faqs = [
+  {
+    q: "What is a premium lead?",
+    a: `A vehicle shipping quote request that is shared with no more than ${MAX_BROKERS} brokers. It sits between our shared and exclusive packages.`,
+  },
+  {
+    q: "What's the minimum order?",
+    a: `Orders start at $${MIN_ORDER}. At $${PRICE} per lead, that's ${MIN_LEADS} premium leads.`,
+  },
+  {
+    q: "Can I order other lead types too?",
+    a: "Yes. Many brokers combine premium leads with shared, exclusive or live call packages. Our team can help you plan the right mix.",
+  },
+  {
+    q: "Are bookings guaranteed?",
+    a: "No. Leads give your team the opportunity, but results depend on your follow-up speed, sales process and market conditions.",
+  },
+  {
+    q: "Can prices change?",
+    a: "Per-lead prices may change with demand and availability. We always confirm the current price with you before you order.",
+  },
 ];
 
 export default function Premiumleads() {
   return (
-    <main className="min-h-screen bg-white text-slate-900">
-      <section className="relative isolate overflow-hidden bg-[#0f1f33]">
-        <div className="absolute -left-32 -top-32 h-[500px] w-[500px] rounded-full bg-orange-500/10 blur-3xl pointer-events-none" />
-        <div className="absolute right-0 bottom-0 h-80 w-80 rounded-full bg-orange-600/8 blur-2xl pointer-events-none" />
+    <main className="min-h-screen overflow-hidden bg-white text-[#061B35]">
+      {/* ═════════════════ HERO ═════════════════ */}
+      <section className="relative isolate bg-gradient-to-b from-[#F5F8FC] to-white px-6 pb-24 pt-20 sm:px-10 lg:pb-32 lg:pt-28">
+        <div className="pointer-events-none absolute -right-40 -top-40 -z-10 h-[520px] w-[520px] rounded-full bg-[#FE8A01]/15 blur-[140px]" />
+        <div className="pointer-events-none absolute -left-40 top-40 -z-10 h-[420px] w-[420px] rounded-full bg-[#1879D8]/10 blur-[130px]" />
 
-        <div className="mx-auto max-w-7xl px-6 py-24 sm:px-10 sm:py-32 lg:py-36">
-          <div className="max-w-3xl">
-            <div className="mb-7 inline-flex items-center gap-2 rounded-full border border-orange-400/30 bg-orange-500/10 px-4 py-1.5 text-sm font-semibold text-orange-300">
-              <span className="h-1.5 w-1.5 rounded-full bg-orange-400 animate-pulse" />
-              Auto Transport Lead Generation
-            </div>
+        <div className="mx-auto grid max-w-7xl items-center gap-16 lg:grid-cols-[1.1fr_0.9fr]">
+          <div>
+            <span className="inline-flex items-center gap-2 rounded-full border border-[#FE8A01]/30 bg-white px-4 py-2 text-sm font-bold text-[#E97900] shadow-sm">
+              <Star size={15} className="fill-[#FE8A01] text-[#FE8A01]" />
+              Premium Leads
+            </span>
 
-            <h1 className="text-4xl font-extrabold leading-[1.1] tracking-tight text-white sm:text-5xl lg:text-6xl">
-              High-Quality Auto Transport{" "}
-              <span className="text-orange-400">Leads for Your Business</span>
+            <h1 className="mt-7 text-4xl font-black leading-[1.08] tracking-tight sm:text-5xl lg:text-[60px]">
+              The Sweet Spot Between{" "}
+              <span className="text-[#1879D8]">Price</span> and{" "}
+              <span className="text-[#FE8A01]">Competition.</span>
             </h1>
 
-            <p className="mt-6 max-w-2xl text-lg leading-8 text-white/65">
-              In the auto transport industry, timing matters. GrouponFreight
-              helps auto transport companies connect with potential customers
-              through lead generation solutions designed to support business
-              growth and reduce the time spent searching for new opportunities.
+            <p className="mt-6 max-w-xl text-lg leading-relaxed text-slate-600">
+              Premium leads from Digital Network are shared with only a few brokers, giving
+              you a real shot at every customer without paying exclusive prices.
             </p>
 
-            <div className="mt-9 flex flex-wrap gap-4">
+            <div className="mt-9 flex flex-wrap items-center gap-4">
               <Link
                 href="/product-pricing"
-                className="inline-flex items-center gap-2 rounded-xl bg-orange-500 px-8 py-3.5 font-bold text-white shadow-lg shadow-orange-900/40 transition hover:bg-orange-400 active:scale-95"
+                className="group inline-flex items-center gap-2 rounded-xl bg-[#FE8A01] px-8 py-4 font-bold text-white shadow-[0_12px_30px_-10px_rgba(254,138,1,0.8)] transition hover:bg-[#E97900]"
               >
-                View Lead Packages
-                <ArrowRight size={18} />
+                Order Premium Leads
+                <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
               </Link>
               <a
-                href="mailto:info@grouponfreight.org"
-                className="inline-flex items-center gap-2 rounded-xl border border-white/20 bg-white/8 px-8 py-3.5 font-semibold text-white backdrop-blur-sm transition hover:bg-white/15"
-                style={{ backgroundColor: "rgba(255,255,255,0.06)" }}
+                href={WA_LINK}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-8 py-4 font-bold text-[#061B35] transition hover:border-[#25D366] hover:text-[#128C7E]"
               >
-                <Mail size={17} />
-                Contact Us
+                <MessageCircle size={18} className="text-[#25D366]" />
+                Ask on WhatsApp
               </a>
+            </div>
+          </div>
+
+          {/* Price ticket */}
+          <div className="relative mx-auto w-full max-w-md">
+            <div className="absolute inset-0 translate-x-4 translate-y-4 rounded-[32px] bg-[#FE8A01]" />
+            <div className="relative overflow-hidden rounded-[32px] bg-[#061B35] p-8 text-white shadow-2xl sm:p-10">
+              <div
+                className="pointer-events-none absolute inset-0 opacity-[0.12]"
+                style={{
+                  backgroundImage: "radial-gradient(circle, #fff 1px, transparent 1px)",
+                  backgroundSize: "20px 20px",
+                }}
+              />
+              <div className="pointer-events-none absolute -right-20 -top-20 h-56 w-56 rounded-full bg-[#1879D8]/40 blur-3xl" />
+
+              <div className="relative">
+                <div className="flex items-center justify-between">
+                  <span className="rounded-full bg-white/10 px-3 py-1 text-xs font-bold uppercase tracking-[0.2em]">
+                    Most Popular
+                  </span>
+                  <Star size={22} className="fill-[#FE8A01] text-[#FE8A01]" />
+                </div>
+
+                <p className="mt-8 text-sm font-semibold text-white/60">Premium lead</p>
+                <p className="mt-1 flex items-baseline gap-2">
+                  <span className="text-7xl font-black tracking-tight">${PRICE}</span>
+                  <span className="text-lg font-semibold text-white/50">/ lead</span>
+                </p>
+
+                {/* Ticket tear line */}
+                <div className="relative my-8 border-t-2 border-dashed border-white/15">
+                  <span className="absolute -left-14 -top-4 h-8 w-8 rounded-full bg-[#F5F8FC]" />
+                  <span className="absolute -right-14 -top-4 h-8 w-8 rounded-full bg-[#F5F8FC]" />
+                </div>
+
+                <ul className="space-y-3.5">
+                  {[
+                    `Shared with up to ${MAX_BROKERS} brokers`,
+                    "Fast delivery after each quote request",
+                    "Dedicated customer support",
+                    `Min. order $${MIN_ORDER} (${MIN_LEADS} leads)`,
+                  ].map((item) => (
+                    <li key={item} className="flex items-center gap-3 text-sm font-medium text-white/85">
+                      <CheckCircle2 size={18} className="shrink-0 text-[#FE8A01]" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ══════════════════════════════════════════════
-          STATS BAR
-      ══════════════════════════════════════════════ */}
-      <section className="border-b border-slate-100 bg-white px-6 py-10 sm:px-10">
-        <div className="mx-auto grid max-w-5xl grid-cols-2 gap-6 sm:grid-cols-4">
-          {stats.map((s) => (
-            <div key={s.label} className="text-center">
-              <p className="text-3xl font-extrabold text-orange-500">{s.value}</p>
-              <p className="mt-1 text-sm font-medium text-slate-500">{s.label}</p>
-            </div>
-          ))}
-        </div>
-      </section>
+      {/* ═════════════════ WHERE PREMIUM FITS ═════════════════ */}
+      <section className="px-6 py-20 sm:px-10 lg:py-24">
+        <div className="mx-auto max-w-6xl">
+          <div className="mx-auto max-w-2xl text-center">
+            <p className="text-sm font-bold uppercase tracking-[0.2em] text-[#FE8A01]">
+              Where Premium Fits
+            </p>
+            <h2 className="mt-4 text-3xl font-black tracking-tight sm:text-4xl">
+              Fewer Brokers Than Shared. Lower Cost Than Exclusive.
+            </h2>
+          </div>
 
-      {/* ══════════════════════════════════════════════
-          SECTION 1 — SMARTER ALTERNATIVE
-      ══════════════════════════════════════════════ */}
-      <section className="px-6 py-20 sm:px-10 sm:py-24">
-        <div className="mx-auto max-w-7xl">
-          <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
-            {/* Text */}
-            <div>
-              <p className="text-xs font-bold uppercase tracking-[0.22em] text-orange-500">
-                A Smarter Approach
-              </p>
-              <h2 className="mt-3 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
-                A Smarter Alternative to Traditional Marketing
-              </h2>
-              <div className="mt-6 space-y-5 text-base leading-8 text-slate-600">
-                <p>
-                  Building a consistent flow of customers through traditional
-                  marketing can be expensive and unpredictable. Businesses may
-                  spend months optimizing websites, running advertising
-                  campaigns, and developing marketing strategies before seeing
-                  meaningful results — with no guarantee that every inquiry
-                  turns into a genuine business opportunity.
-                </p>
-                <p>
-                  GrouponFreight offers an alternative by helping auto transport
-                  businesses access customer leads relevant to their services.
-                  Instead of relying entirely on lengthy marketing campaigns,
-                  your sales team can focus on connecting with prospective
-                  customers, understanding their vehicle shipping requirements,
-                  and providing suitable transportation solutions.
-                </p>
-                <p>
-                  We understand that every shipping request is different.
-                  Vehicle details, pickup and delivery locations, transportation
-                  timelines, and service requirements can all influence a
-                  customer&apos;s decision — that&apos;s why relevant
-                  information matters when identifying opportunities and
-                  preparing accurate quotes.
-                </p>
-              </div>
-            </div>
+          <div className="relative mt-14">
+            {/* Spectrum bar */}
+            <div className="absolute left-[16%] right-[16%] top-8 hidden h-1.5 rounded-full bg-gradient-to-r from-slate-200 via-[#FE8A01] to-[#061B35] md:block" />
 
-            {/* Visual card stack */}
-            <div className="grid gap-4 sm:grid-cols-2">
-              {[
-                {
-                  icon: TrendingUp,
-                  title: "Less time prospecting",
-                  body: "Your sales team focuses on conversations, not cold outreach.",
-                },
-                {
-                  icon: CheckCircle2,
-                  title: "Qualified inquiries",
-                  body: "Leads come from customers who've already expressed interest in vehicle shipping.",
-                },
-                {
-                  icon: Clock,
-                  title: "Faster follow-up",
-                  body: "Timely delivery means your team responds while customer intent is highest.",
-                },
-                {
-                  icon: Truck,
-                  title: "Shipment-ready details",
-                  body: "Relevant customer and vehicle information helps you quote with confidence.",
-                },
-              ].map((card) => {
-                const Icon = card.icon;
+            <div className="relative grid gap-5 md:grid-cols-3">
+              {spectrum.map((s) => {
+                const Icon = s.icon;
                 return (
-                  <div
-                    key={card.title}
-                    className="rounded-2xl border border-slate-100 bg-slate-50 p-6 transition hover:border-orange-200 hover:bg-orange-50/40"
-                  >
-                    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-orange-500 text-white">
-                      <Icon size={19} />
+                  <div key={s.name} className="text-center">
+                    <span
+                      className={`relative mx-auto flex items-center justify-center rounded-full border-4 border-white shadow-lg ${
+                        s.active
+                          ? "h-16 w-16 bg-[#FE8A01] text-white shadow-[#FE8A01]/40"
+                          : "h-16 w-16 bg-slate-100 text-slate-500"
+                      }`}
+                    >
+                      <Icon size={24} className={s.active ? "fill-white" : ""} />
+                    </span>
+                    <div
+                      className={`mt-5 rounded-2xl p-6 ${
+                        s.active
+                          ? "bg-[#061B35] text-white shadow-[0_25px_50px_-20px_rgba(6,27,53,0.5)] md:-mt-1 md:scale-105"
+                          : "border border-slate-200 bg-white"
+                      }`}
+                    >
+                      <p className={`text-lg font-extrabold ${s.active ? "text-[#FE8A01]" : ""}`}>
+                        {s.name}
+                        {s.active && (
+                          <span className="ml-2 rounded-full bg-white/10 px-2 py-0.5 align-middle text-[10px] font-bold uppercase tracking-wider text-white/70">
+                            This page
+                          </span>
+                        )}
+                      </p>
+                      <p className={`mt-1 text-3xl font-black ${s.active ? "text-white" : ""}`}>
+                        {s.price}
+                        <span className={`ml-1 text-sm font-semibold ${s.active ? "text-white/50" : "text-slate-400"}`}>
+                          / lead
+                        </span>
+                      </p>
+                      <p className={`mt-2 text-sm ${s.active ? "text-white/70" : "text-slate-500"}`}>
+                        {s.brokers}
+                      </p>
                     </div>
-                    <h3 className="mt-4 text-sm font-bold text-slate-900">{card.title}</h3>
-                    <p className="mt-1.5 text-sm leading-6 text-slate-500">{card.body}</p>
                   </div>
                 );
               })}
@@ -231,40 +259,86 @@ export default function Premiumleads() {
         </div>
       </section>
 
-      {/* ══════════════════════════════════════════════
-          SECTION 2 — WHAT MAKES OUR LEADS VALUABLE
-      ══════════════════════════════════════════════ */}
-      <section className="bg-slate-50 px-6 py-20 sm:px-10 sm:py-24">
-        <div className="mx-auto max-w-7xl">
-          <div className="mx-auto max-w-2xl text-center">
-            <p className="text-xs font-bold uppercase tracking-[0.22em] text-orange-500">
-              Lead Quality
+      {/* ═════════════════ WHY PREMIUM (bento) ═════════════════ */}
+      <section className="bg-[#F5F8FC] px-6 py-20 sm:px-10 lg:py-28">
+        <div className="mx-auto grid max-w-7xl gap-5 lg:grid-cols-3">
+          {/* Large intro card */}
+          <div className="relative overflow-hidden rounded-[28px] bg-gradient-to-br from-[#1879D8] to-[#061B35] p-9 text-white lg:row-span-2">
+            <div className="pointer-events-none absolute -bottom-20 -right-20 h-64 w-64 rounded-full border-[36px] border-white/10" />
+            <p className="text-sm font-bold uppercase tracking-[0.2em] text-[#FE8A01]">
+              Why Premium
             </p>
-            <h2 className="mt-3 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
-              What Makes GrouponFreight Leads Valuable?
+            <h2 className="mt-4 text-3xl font-black leading-tight">
+              Built for Brokers Who Want Better Odds
             </h2>
-            <p className="mt-4 text-base leading-7 text-slate-500">
-              Lead quality is just as important as lead quantity. A large list
-              of contacts isn&apos;t valuable if those contacts don&apos;t
-              match your services or target audience.
+            <p className="mt-5 leading-relaxed text-white/75">
+              Shared leads can feel like a race against a crowd. Premium leads narrow the
+              field, so your quick call and good service have more room to win the booking.
+            </p>
+            <p className="mt-4 leading-relaxed text-white/75">
+              It&apos;s a great starting point for brokerages that want quality without
+              stretching their budget.
+            </p>
+            <Link
+              href="/product-pricing"
+              className="group mt-8 inline-flex items-center gap-2 rounded-xl bg-white px-6 py-3.5 text-sm font-bold text-[#061B35] transition hover:-translate-y-0.5"
+            >
+              See all packages
+              <ArrowRight size={16} className="text-[#FE8A01] transition-transform group-hover:translate-x-1" />
+            </Link>
+          </div>
+
+          {reasons.map((r) => {
+            const Icon = r.icon;
+            return (
+              <div
+                key={r.title}
+                className="group rounded-[28px] border border-slate-200/70 bg-white p-8 transition hover:-translate-y-1 hover:shadow-[0_25px_50px_-25px_rgba(6,27,53,0.35)]"
+              >
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#FE8A01]/10 text-[#FE8A01] transition group-hover:rotate-6 group-hover:bg-[#FE8A01] group-hover:text-white">
+                  <Icon size={22} />
+                </div>
+                <h3 className="mt-5 text-xl font-extrabold">{r.title}</h3>
+                <p className="mt-2 text-[15px] leading-relaxed text-slate-600">{r.text}</p>
+              </div>
+            );
+          })}
+        </div>
+      </section>
+
+      {/* ═════════════════ WHO IT'S FOR ═════════════════ */}
+      <section className="px-6 py-20 sm:px-10 lg:py-28">
+        <div className="mx-auto max-w-7xl">
+          <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
+            <div>
+              <p className="text-sm font-bold uppercase tracking-[0.2em] text-[#FE8A01]">
+                Who It&apos;s For
+              </p>
+              <h2 className="mt-4 text-3xl font-black tracking-tight sm:text-4xl">
+                A Good Fit for Most Brokerages
+              </h2>
+            </div>
+            <p className="max-w-md text-slate-600">
+              Whether you work alone or run a full sales floor, premium leads scale with you.
             </p>
           </div>
 
-          <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {valueProps.map((vp) => {
-              const Icon = vp.icon;
+          <div className="mt-12 grid gap-6 md:grid-cols-3">
+            {personas.map((p, i) => {
+              const Icon = p.icon;
               return (
                 <div
-                  key={vp.title}
-                  className="group flex flex-col gap-4 rounded-2xl border border-slate-200 bg-white p-7 shadow-sm transition hover:-translate-y-1 hover:border-orange-300 hover:shadow-lg"
+                  key={p.title}
+                  className="group relative overflow-hidden rounded-3xl border border-slate-200 p-8 transition hover:border-[#1879D8]/40"
                 >
-                  <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-orange-500 text-white shadow-md shadow-orange-200 transition group-hover:bg-orange-600">
-                    <Icon size={21} />
+                  <span className="absolute -right-3 -top-6 text-[120px] font-black leading-none text-[#1879D8]/[0.06] transition group-hover:text-[#1879D8]/10">
+                    {i + 1}
+                  </span>
+                  <div className="relative flex h-14 w-14 items-center justify-center rounded-full bg-[#061B35] text-white transition group-hover:bg-[#1879D8]">
+                    <Icon size={24} />
                   </div>
-                  <div>
-                    <h3 className="text-base font-bold text-slate-900">{vp.title}</h3>
-                    <p className="mt-2 text-sm leading-7 text-slate-500">{vp.description}</p>
-                  </div>
+                  <h3 className="relative mt-6 text-xl font-extrabold">{p.title}</h3>
+                  <p className="relative mt-2 text-[15px] leading-relaxed text-slate-600">{p.text}</p>
                 </div>
               );
             })}
@@ -272,164 +346,86 @@ export default function Premiumleads() {
         </div>
       </section>
 
-      {/* ══════════════════════════════════════════════
-          SECTION 3 — GROW WITH CONFIDENCE
-      ══════════════════════════════════════════════ */}
-      <section className="px-6 py-20 sm:px-10 sm:py-24">
-        <div className="mx-auto max-w-7xl">
-          <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
-            {/* Lead types list */}
-            <div className="order-2 lg:order-1">
-              <div className="space-y-4">
-                {leadTypes.map((lt) => {
-                  const Icon = lt.icon;
-                  return (
-                    <div
-                      key={lt.label}
-                      className="flex items-start gap-5 rounded-2xl border border-slate-100 bg-white p-5 shadow-sm transition hover:border-orange-200"
-                    >
-                      <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#0f1f33] text-white">
-                        <Icon size={20} />
-                      </div>
-                      <div>
-                        <p className="font-bold text-slate-900">{lt.label}</p>
-                        <p className="mt-1 text-sm leading-6 text-slate-500">{lt.desc}</p>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
+      {/* ═════════════════ FAQ ═════════════════ */}
+      <section className="bg-[#F5F8FC] px-6 py-20 sm:px-10 lg:py-28">
+        <div className="mx-auto grid max-w-6xl gap-12 lg:grid-cols-[0.8fr_1.2fr]">
+          <div>
+            <p className="text-sm font-bold uppercase tracking-[0.2em] text-[#FE8A01]">FAQ</p>
+            <h2 className="mt-4 text-3xl font-black tracking-tight sm:text-4xl">
+              Premium Leads, Explained
+            </h2>
+            <p className="mt-4 text-slate-600">
+              Still have a question? Our team is happy to help.
+            </p>
+            <a
+              href={WA_LINK}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-6 inline-flex items-center gap-2 font-bold text-[#1879D8] hover:underline"
+            >
+              <MessageCircle size={18} />
+              Chat with us
+            </a>
+          </div>
 
-            {/* Text */}
-            <div className="order-1 lg:order-2">
-              <p className="text-xs font-bold uppercase tracking-[0.22em] text-orange-500">
-                Business Growth
-              </p>
-              <h2 className="mt-3 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
-                Grow Your Auto Transport Business with Confidence
-              </h2>
-              <div className="mt-6 space-y-5 text-base leading-8 text-slate-600">
-                <p>
-                  The auto transport market is competitive, and maintaining a
-                  steady pipeline of potential customers can be challenging.
-                  Without a consistent approach to lead generation, businesses
-                  may struggle to keep their sales teams productive and their
-                  operations growing.
-                </p>
-                <p>
-                  GrouponFreight helps businesses approach customer acquisition
-                  with a more focused strategy. By providing access to relevant
-                  lead solutions, we help auto transport companies spend more
-                  time engaging with prospects and less time depending solely on
-                  traditional advertising methods.
-                </p>
-                <p>
-                  Whether you&apos;re an independent auto transport broker, a
-                  growing vehicle shipping company, or an established
-                  transportation business, the right lead strategy can support
-                  your efforts to reach new customers and expand your market
-                  presence.
-                </p>
-              </div>
-
-              <div className="mt-8 flex flex-wrap gap-4">
-                <Link
-                  href="/product-pricing"
-                  className="inline-flex items-center gap-2 rounded-xl bg-orange-500 px-7 py-3.5 font-bold text-white shadow-lg shadow-orange-200 transition hover:bg-orange-400 active:scale-95"
-                >
-                  Explore Lead Packages
-                  <ArrowRight size={17} />
-                </Link>
-              </div>
-            </div>
+          <div className="space-y-3">
+            {faqs.map((f, i) => (
+              <details
+                key={f.q}
+                open={i === 0}
+                className="group rounded-2xl border border-slate-200 bg-white px-6 py-5 transition open:border-[#FE8A01]/40 open:shadow-[0_15px_35px_-20px_rgba(6,27,53,0.3)]"
+              >
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-bold [&::-webkit-details-marker]:hidden">
+                  {f.q}
+                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-slate-100 transition group-open:rotate-180 group-open:bg-[#FE8A01] group-open:text-white">
+                    <ChevronDown size={16} />
+                  </span>
+                </summary>
+                <p className="mt-3 text-[15px] leading-relaxed text-slate-600">{f.a}</p>
+              </details>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* ══════════════════════════════════════════════
-          SECTION 4 — TAKE THE NEXT STEP (CTA)
-      ══════════════════════════════════════════════ */}
-      <section className="bg-[#0f1f33] px-6 py-20 sm:px-10 sm:py-24">
-        <div className="mx-auto max-w-7xl">
-          <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
-            <div>
-              <p className="text-xs font-bold uppercase tracking-[0.22em] text-orange-400">
-                Get Started Today
-              </p>
-              <h2 className="mt-3 text-3xl font-extrabold leading-tight text-white sm:text-4xl">
-                Take the Next Step with{" "}
-                <span className="text-orange-400">GrouponFreight</span>
-              </h2>
-              <p className="mt-5 text-base leading-8 text-white/60">
-                Your business deserves a consistent approach to finding new
-                customers. With the right lead generation strategy, your team
-                can focus on responding to inquiries, providing competitive
-                shipping quotes, and building trust with potential customers.
-              </p>
-              <p className="mt-4 text-base leading-8 text-white/60">
-                Partner with GrouponFreight to explore auto transport lead
-                solutions tailored to your business needs — whether you&apos;re
-                looking for shared leads, premium options, exclusive leads, or
-                live transportation calls.
-              </p>
-
-              <div className="mt-9 flex flex-wrap gap-4">
-                <a
-                  href="mailto:info@grouponfreight.org?subject=Auto%20Transport%20Lead%20Inquiry"
-                  className="inline-flex items-center gap-2.5 rounded-xl bg-orange-500 px-8 py-3.5 font-bold text-white shadow-lg shadow-orange-900/40 transition hover:bg-orange-400 active:scale-95"
-                >
-                  <Mail size={17} />
-                  Contact GrouponFreight
-                </a>
-                <Link
-                  href="/product-pricing"
-                  className="inline-flex items-center gap-2 rounded-xl border border-white/20 bg-white/8 px-8 py-3.5 font-semibold text-white transition hover:bg-white/15"
-                  style={{ backgroundColor: "rgba(255,255,255,0.06)" }}
-                >
-                  View Pricing
-                  <ArrowRight size={17} />
-                </Link>
-              </div>
-            </div>
-
-            {/* Checklist card */}
-            <div className="rounded-2xl border border-white/10 bg-white/5 p-8 backdrop-blur-sm">
-              <p className="text-sm font-bold uppercase tracking-widest text-orange-400">
-                What you get
-              </p>
-              <ul className="mt-6 space-y-4">
-                {[
-                  "Shared, premium, and exclusive lead options",
-                  "Live auto transport call transfers",
-                  "International vehicle shipping leads",
-                  "Specialty & heavy haul lead packages",
-                  "Straightforward ordering process",
-                  "Personalized team support",
-                  "Minimum order from just $300",
-                ].map((item) => (
-                  <li key={item} className="flex items-start gap-3 text-sm text-white/75">
-                    <CheckCircle2
-                      size={17}
-                      className="mt-0.5 shrink-0 text-orange-400"
-                    />
-                    {item}
-                  </li>
-                ))}
-              </ul>
-
-              <div className="mt-8 border-t border-white/10 pt-6">
-                <p className="text-xs text-white/35">
-                  Ready to find the right leads for your business?
-                </p>
-                <p className="mt-1 text-sm font-semibold text-white">
-                  info@grouponfreight.org
-                </p>
-              </div>
-            </div>
+      {/* ═════════════════ CTA ═════════════════ */}
+      <section className="px-6 py-20 sm:px-10 lg:py-24">
+        <div className="relative mx-auto grid max-w-6xl items-center gap-8 overflow-hidden rounded-[32px] bg-gradient-to-r from-[#FE8A01] to-[#F59A1F] p-9 sm:p-12 lg:grid-cols-[1fr_auto]">
+          <div
+            className="pointer-events-none absolute inset-0 opacity-20"
+            style={{
+              backgroundImage: "radial-gradient(circle, #fff 1px, transparent 1px)",
+              backgroundSize: "22px 22px",
+            }}
+          />
+          <div className="relative">
+            <h2 className="text-3xl font-black leading-tight text-white sm:text-4xl">
+              Ready to Try Premium Leads?
+            </h2>
+            <p className="mt-3 max-w-xl text-lg text-white/90">
+              Start with {MIN_LEADS} leads for ${MIN_ORDER} and see how they work for your team.
+            </p>
+          </div>
+          <div className="relative flex flex-col gap-3 sm:flex-row">
+            <Link
+              href="/product-pricing"
+              className="group inline-flex items-center justify-center gap-2 rounded-xl bg-[#061B35] px-7 py-4 font-bold text-white transition hover:bg-[#0E2A4D]"
+            >
+              Order Now
+              <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
+            </Link>
+            <a
+              href={WA_LINK}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 rounded-xl bg-white px-7 py-4 font-bold text-[#061B35] transition hover:-translate-y-0.5"
+            >
+              <MessageCircle size={18} className="text-[#25D366]" />
+              WhatsApp Us
+            </a>
           </div>
         </div>
-      </section>  
+      </section>
     </main>
   );
 }

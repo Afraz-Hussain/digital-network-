@@ -1,248 +1,329 @@
-"use client";
 import Link from "next/link";
 import {
   ArrowRight,
+  BadgeCheck,
   CheckCircle2,
+  Clock,
+  FileText,
+  Headphones,
+  Mail,
+  MessageCircle,
+  MessageSquare,
+  Phone,
   PhoneCall,
   PhoneIncoming,
-  Clock,
-  MessageSquare,
-  TrendingUp,
-  Zap,
-  Users,
-  Star,
+  PhoneOff,
   Target,
-  Headphones,
-  BadgeCheck,
-  Mail,
-  Flame,
+  TrendingUp,
+  Truck,
+  Voicemail,
+  Zap,
 } from "lucide-react";
 
-const whyChoose = [
-  {
-    icon: MessageSquare,
-    title: "Direct Customer Conversations",
-    description:
-      "Speak with potential customers in real time instead of waiting on email replies or form submissions. A live conversation closes faster than any inbox.",
-  },
-  {
-    icon: Clock,
-    title: "Timely Connection",
-    description:
-      "Connect with callers while their vehicle shipping need is active. Reaching a prospect at the right moment dramatically increases your chances of booking the shipment.",
-  },
-  {
-    icon: Headphones,
-    title: "Personalized Service",
-    description:
-      "Walk through pickup and delivery locations, vehicle details, timelines, and pricing — all in one call. Customers appreciate being handled as individuals, not ticket numbers.",
-  },
-  {
-    icon: TrendingUp,
-    title: "More Sales Opportunities",
-    description:
-      "Give your sales team the chance to answer questions, overcome objections, and move qualified prospects toward booking — all before a competitor gets a word in.",
-  },
-  {
-    icon: Target,
-    title: "One Broker Per Call",
-    description:
-      "Each live call transfer is directed to a single brokerage. No shared distribution, no competing against other companies for the same caller on the same line.",
-  },
-  {
-    icon: Zap,
-    title: "Instant Pipeline Boost",
-    description:
-      "Add live calls to your existing marketing and lead acquisition strategy. They complement shared and exclusive leads by filling your pipeline with real-time inbound interest.",
-  },
+/* WhatsApp number: digits only with country code (US = 1) */
+const WHATSAPP_NUMBER = "17342622139";
+const WA_LINK = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
+  "Hello Digital Network! I'm interested in Live Transfer Calls."
+)}`;
+
+/* Same figures as the pricing page */
+const PRICE = 25;
+const MIN_ORDER = 300;
+const MIN_CALLS = Math.ceil(MIN_ORDER / PRICE);
+
+const formFlow = [
+  { icon: FileText, text: "Customer fills out a form" },
+  { icon: Mail, text: "You see it later and call back" },
+  { icon: Voicemail, text: "Voicemail, or they already booked" },
+];
+
+const callFlow = [
+  { icon: PhoneIncoming, text: "Customer calls about shipping" },
+  { icon: PhoneCall, text: "Call is transferred to your line" },
+  { icon: MessageSquare, text: "You're talking to them right now" },
 ];
 
 const steps = [
   {
-    number: "01",
     icon: PhoneIncoming,
-    title: "Customer Calls In",
-    description:
-      "A potential customer looking to ship their vehicle reaches one of our advertising channels and expresses interest in auto transport services.",
+    title: "A Customer Calls",
+    text: "Someone who needs to ship a vehicle reaches one of our advertising channels by phone.",
   },
   {
-    number: "02",
     icon: BadgeCheck,
-    title: "Call Is Qualified",
-    description:
-      "Our team confirms the caller has a genuine vehicle shipping need — verifying intent before the transfer is made to your brokerage.",
+    title: "Quick Check",
+    text: "We confirm they're calling about vehicle shipping before connecting them to you.",
   },
   {
-    number: "03",
     icon: PhoneCall,
-    title: "Transferred to You",
-    description:
-      "The live call is routed directly to your designated phone line. Your sales rep picks up and the conversation — and the opportunity — begins immediately.",
+    title: "Transferred to Your Line",
+    text: "The live call goes straight to your designated phone number. Your rep picks up.",
   },
   {
-    number: "04",
     icon: TrendingUp,
-    title: "You Close the Deal",
-    description:
-      "Discuss requirements, provide a quote, and guide the customer toward booking. No delays, no back-and-forth — just a direct path to revenue.",
+    title: "You Quote & Book",
+    text: "Talk through the route, vehicle and timing, give your quote and guide them to booking.",
   },
 ];
 
-const stats = [
-  { value: "Live", label: "Real-time transfer" },
-  { value: "1:1", label: "One broker per call" },
-  { value: "$25", label: "Per call" },
-  { value: "$300", label: "Minimum order" },
+const reasons = [
+  {
+    icon: MessageSquare,
+    title: "Real Conversations",
+    text: "Talk to customers live instead of waiting on email replies or form callbacks.",
+  },
+  {
+    icon: Clock,
+    title: "Perfect Timing",
+    text: "You connect while the shipping need is active, not hours or days later.",
+  },
+  {
+    icon: Target,
+    title: "One Broker Per Call",
+    text: "Each transfer goes to a single brokerage. No one else is on that call.",
+  },
+  {
+    icon: Headphones,
+    title: "Personal Service",
+    text: "Cover pickup, delivery, vehicle details and price in one friendly call.",
+  },
+  {
+    icon: Zap,
+    title: "Boost Your Pipeline",
+    text: "Add live calls on top of your shared, premium or exclusive leads.",
+  },
+  {
+    icon: Truck,
+    title: "Domestic Shipping",
+    text: "Calls from customers shipping vehicles within the U.S.",
+  },
 ];
 
 export default function LiveCallsPage() {
   return (
-    <main className="min-h-screen bg-white text-slate-900">
+    <main className="min-h-screen overflow-hidden bg-white text-[#061B35]">
+      <style>{`
+        @keyframes lcRing { 0% { transform: scale(1); opacity: .55; } 100% { transform: scale(2.2); opacity: 0; } }
+        @keyframes lcShake { 0%,100% { transform: rotate(0); } 10%,30% { transform: rotate(-12deg); } 20%,40% { transform: rotate(12deg); } 50% { transform: rotate(0); } }
+        .lc-ring { animation: lcRing 2s ease-out infinite; }
+        .lc-shake { animation: lcShake 1.6s ease-in-out infinite; }
+        @media (prefers-reduced-motion: reduce) { .lc-ring, .lc-shake { animation: none; } }
+      `}</style>
 
-      {/* ══════════════════════════════════════
-          HERO
-      ══════════════════════════════════════ */}
-      <section className="relative isolate overflow-hidden bg-[#0f1f33]">
-        <div className="absolute -left-40 -top-40 h-[520px] w-[520px] rounded-full bg-orange-500/10 blur-3xl pointer-events-none" />
-        <div className="absolute right-0 bottom-0 h-96 w-96 rounded-full bg-orange-600/8 blur-2xl pointer-events-none" />
+      {/* ═════════════════ HERO ═════════════════ */}
+      <section className="relative isolate overflow-hidden bg-gradient-to-br from-[#061B35] via-[#0A2B52] to-[#0E4F95] px-6 py-20 sm:px-10 lg:py-28">
+        <div
+          className="pointer-events-none absolute inset-0 -z-10 opacity-[0.1]"
+          style={{
+            backgroundImage: "radial-gradient(circle, #fff 1px, transparent 1px)",
+            backgroundSize: "26px 26px",
+          }}
+        />
+        <div className="pointer-events-none absolute -right-32 bottom-0 -z-10 h-[500px] w-[500px] rounded-full bg-[#FE8A01]/25 blur-[140px]" />
 
-        <div className="mx-auto max-w-7xl px-6 py-24 sm:px-10 sm:py-32">
-          <div className="max-w-3xl">
+        <div className="mx-auto grid max-w-7xl items-center gap-16 lg:grid-cols-[1.15fr_0.85fr]">
+          <div>
+            <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-xs font-bold uppercase tracking-[0.2em] text-white backdrop-blur">
+              <PhoneCall size={14} className="text-[#FE8A01]" />
+              Live Transfer Calls
+            </span>
 
-            {/* Hot badge */}
-            <div className="mb-5 inline-flex items-center gap-2 rounded-full bg-orange-500/20 px-4 py-1.5 text-sm font-bold text-orange-300">
-              <Flame size={14} className="text-orange-400" />
-              Hot Product — High Demand
-            </div>
-
-            {/* Eyebrow */}
-            <div className="mb-7 inline-flex items-center gap-2 rounded-full border border-orange-400/30 bg-orange-500/10 px-4 py-1.5 text-sm font-semibold text-orange-300">
-              <Star size={14} className="fill-orange-400 text-orange-400" />
-              Live Call Transfer Leads — GrouponFreight
-            </div>
-
-            <h1 className="text-4xl font-extrabold leading-[1.08] tracking-tight text-white sm:text-5xl lg:text-6xl">
-              Hot, Live Call Transfer{" "}
-              <span className="text-orange-400">Leads for Your</span>
-              <br className="hidden sm:block" /> Auto Transport Brokerage
+            <h1 className="mt-7 text-4xl font-black leading-[1.08] tracking-tight text-white sm:text-5xl lg:text-[60px]">
+              Your Phone Rings.
+              <span className="block text-[#FE8A01]">A Customer Is Ready.</span>
             </h1>
 
-            <p className="mt-6 max-w-2xl text-lg leading-8 text-white/65">
-              Stop waiting on form fills and email threads. Live call transfers
-              connect your sales team directly with customers who are actively
-              looking to ship their vehicle — right now, on the phone.
+            <p className="mt-6 max-w-xl text-lg leading-relaxed text-white/70">
+              Skip the form fills and email chains. Digital Network transfers callers who want to
+              ship a vehicle straight to your sales line, so you can talk to them right away.
             </p>
 
-            <div className="mt-9 flex flex-wrap gap-4">
+            <div className="mt-9 flex flex-wrap items-center gap-4">
               <Link
                 href="/product-pricing"
-                className="inline-flex items-center gap-2 rounded-xl bg-orange-500 px-8 py-3.5 font-bold text-white shadow-lg shadow-orange-900/40 transition hover:bg-orange-400 active:scale-95"
+                className="group inline-flex items-center gap-2 rounded-xl bg-[#FE8A01] px-8 py-4 font-bold text-white shadow-[0_12px_30px_-10px_rgba(254,138,1,0.9)] transition hover:bg-[#E97900]"
               >
-                Order Live Call Leads
-                <ArrowRight size={18} />
+                Order Live Calls
+                <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
               </Link>
               <a
-                href="mailto:info@grouponfreight.org"
-                className="inline-flex items-center gap-2 rounded-xl border border-white/20 px-8 py-3.5 font-semibold text-white transition hover:bg-white/10"
-                style={{ backgroundColor: "rgba(255,255,255,0.06)" }}
+                href={WA_LINK}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-xl border border-white/25 px-8 py-4 font-bold text-white transition hover:bg-white/10"
               >
-                <Mail size={17} />
+                <MessageCircle size={18} className="text-[#25D366]" />
                 Talk to Our Team
               </a>
             </div>
 
-            {/* Stats strip */}
-            <div className="mt-12 grid grid-cols-2 gap-3 sm:grid-cols-4">
-              {stats.map((s) => (
-                <div
-                  key={s.label}
-                  className="rounded-xl border border-white/10 px-4 py-4 text-center backdrop-blur-sm"
-                  style={{ backgroundColor: "rgba(255,255,255,0.06)" }}
-                >
-                  <p className="text-2xl font-extrabold text-orange-400">{s.value}</p>
-                  <p className="mt-0.5 text-xs font-medium text-white/50">{s.label}</p>
-                </div>
-              ))}
+            <div className="mt-10 flex flex-wrap gap-x-8 gap-y-3 text-sm text-white/70">
+              <span className="flex items-center gap-2">
+                <CheckCircle2 size={17} className="text-[#FE8A01]" />${PRICE} per call
+              </span>
+              <span className="flex items-center gap-2">
+                <CheckCircle2 size={17} className="text-[#FE8A01]" />1 broker per call
+              </span>
+              <span className="flex items-center gap-2">
+                <CheckCircle2 size={17} className="text-[#FE8A01]" />${MIN_ORDER} minimum ({MIN_CALLS} calls)
+              </span>
             </div>
+          </div>
+
+          {/* Phone mockup */}
+          <div className="relative mx-auto w-[280px] sm:w-[300px]">
+            <div className="absolute -inset-10 rounded-full bg-[#1879D8]/30 blur-3xl" />
+            <div className="relative rounded-[44px] border-[10px] border-[#0B1220] bg-gradient-to-b from-[#0E2A4D] to-[#061B35] px-6 pb-10 pt-6 shadow-[0_40px_80px_-20px_rgba(0,0,0,0.6)]">
+              <div className="mx-auto h-5 w-24 rounded-full bg-[#0B1220]" />
+
+              <p className="mt-10 text-center text-xs font-bold uppercase tracking-[0.25em] text-[#FE8A01]">
+                Incoming transfer
+              </p>
+              <p className="mt-2 text-center text-2xl font-extrabold text-white">New Customer</p>
+              <p className="mt-1 text-center text-sm text-white/60">Vehicle shipping inquiry</p>
+
+              {/* Ringing avatar */}
+              <div className="relative mx-auto mt-10 flex h-24 w-24 items-center justify-center">
+                <span className="lc-ring absolute inset-0 rounded-full bg-[#FE8A01]" />
+                <span className="lc-ring absolute inset-0 rounded-full bg-[#FE8A01]" style={{ animationDelay: "1s" }} />
+                <span className="relative flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-br from-[#FE8A01] to-[#E97900] text-white shadow-lg">
+                  <Truck size={38} />
+                </span>
+              </div>
+
+              <div className="mt-8 rounded-2xl bg-white/[0.06] p-4 text-center text-sm text-white/70 ring-1 ring-white/10">
+                Transferred by <span className="font-bold text-white">Digital Network</span>
+              </div>
+
+              <div className="mt-10 flex items-center justify-around">
+                <div className="text-center">
+                  <span className="flex h-14 w-14 items-center justify-center rounded-full bg-red-500/90 text-white">
+                    <PhoneOff size={22} />
+                  </span>
+                  <p className="mt-2 text-[11px] text-white/50">Decline</p>
+                </div>
+                <div className="text-center">
+                  <span className="lc-shake flex h-14 w-14 items-center justify-center rounded-full bg-emerald-500 text-white shadow-[0_0_25px_rgba(16,185,129,0.6)]">
+                    <Phone size={22} />
+                  </span>
+                  <p className="mt-2 text-[11px] text-white/50">Accept</p>
+                </div>
+              </div>
+            </div>
+            <p className="mt-4 text-center text-[11px] text-white/40">Illustration</p>
           </div>
         </div>
       </section>
 
-      {/* ══════════════════════════════════════
-          INTRO — CONNECT IN REAL TIME
-      ══════════════════════════════════════ */}
-      <section className="border-b border-slate-100 px-6 py-20 sm:px-10 sm:py-24">
-        <div className="mx-auto max-w-7xl">
-          <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
-            <div>
-              <p className="text-xs font-bold uppercase tracking-[0.22em] text-orange-500">
-                Real-Time Connections
-              </p>
-              <h2 className="mt-3 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
-                Connect with Potential Customers in Real Time
-              </h2>
-              <div className="mt-6 space-y-5 text-base leading-8 text-slate-600">
-                <p>
-                  When a customer is searching for an auto transport company,
-                  timing is everything. A prospect who doesn&apos;t hear from
-                  a broker immediately will simply call the next name on their
-                  list. Live call transfers put your team on the phone with
-                  that customer before anyone else gets the chance.
-                </p>
-                <p>
-                  Instead of relying only on email inquiries or online forms,
-                  GrouponFreight&apos;s live transfer solutions connect
-                  prospective customers directly to your designated phone line.
-                  Your sales representatives can engage with callers right
-                  away, understand their transportation needs, and present your
-                  brokerage&apos;s services while the customer&apos;s interest
-                  is at its peak.
-                </p>
-                <p>
-                  Whether a customer needs to transport a car across the
-                  country or arrange specialty vehicle shipping, a direct
-                  conversation gives your team the best possible chance to
-                  identify the opportunity, answer questions, and close the
-                  booking.
-                </p>
-              </div>
-            </div>
+      {/* ═════════════════ FORM vs CALL ═════════════════ */}
+      <section className="px-6 py-20 sm:px-10 lg:py-28">
+        <div className="mx-auto max-w-6xl">
+          <div className="mx-auto max-w-2xl text-center">
+            <p className="text-sm font-bold uppercase tracking-[0.2em] text-[#FE8A01]">
+              Why Calls Win
+            </p>
+            <h2 className="mt-4 text-3xl font-black tracking-tight sm:text-4xl lg:text-5xl">
+              A Form Waits. A Call Doesn&apos;t.
+            </h2>
+            <p className="mt-5 text-lg leading-relaxed text-slate-600">
+              Customers who don&apos;t hear back quickly often call the next company on their
+              list. Live transfers put you on the phone first.
+            </p>
+          </div>
 
-            {/* Feature highlight cards */}
-            <div className="grid grid-cols-2 gap-4">
-              {[
-                {
-                  icon: PhoneCall,
-                  title: "Phone-first approach",
-                  body: "Conversations convert faster than emails. Live calls put your team in the driver's seat.",
-                },
-                {
-                  icon: Clock,
-                  title: "Right-moment contact",
-                  body: "Reach customers while they're actively searching — not hours or days later.",
-                },
-                {
-                  icon: Users,
-                  title: "1 broker per call",
-                  body: "No sharing. Every transfer goes exclusively to your brokerage.",
-                },
-                {
-                  icon: Target,
-                  title: "Qualified callers only",
-                  body: "Calls are screened for genuine shipping intent before reaching your line.",
-                },
-              ].map((card) => {
-                const Icon = card.icon;
+          <div className="mt-14 grid gap-6 lg:grid-cols-2">
+            {[
+              { title: "Web form lead", sub: "The slow way", flow: formFlow, live: false },
+              { title: "Live transfer call", sub: "The fast way", flow: callFlow, live: true },
+            ].map((col) => (
+              <div
+                key={col.title}
+                className={`rounded-3xl p-8 sm:p-10 ${
+                  col.live
+                    ? "bg-[#061B35] text-white shadow-[0_30px_60px_-25px_rgba(6,27,53,0.55)]"
+                    : "border border-slate-200 bg-slate-50"
+                }`}
+              >
+                <p
+                  className={`text-sm font-bold uppercase tracking-[0.2em] ${
+                    col.live ? "text-[#FE8A01]" : "text-slate-400"
+                  }`}
+                >
+                  {col.sub}
+                </p>
+                <h3 className={`mt-2 text-2xl font-extrabold ${col.live ? "" : "text-slate-500"}`}>
+                  {col.title}
+                </h3>
+
+                <ol className="relative mt-8 space-y-6">
+                  <span
+                    className={`absolute bottom-5 left-5 top-5 w-px border-l-2 border-dashed ${
+                      col.live ? "border-[#FE8A01]/50" : "border-slate-300"
+                    }`}
+                  />
+                  {col.flow.map((s) => {
+                    const Icon = s.icon;
+                    return (
+                      <li key={s.text} className="relative flex items-center gap-4">
+                        <span
+                          className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full ${
+                            col.live
+                              ? "bg-[#FE8A01] text-white"
+                              : "bg-white text-slate-400 ring-1 ring-slate-200"
+                          }`}
+                        >
+                          <Icon size={18} />
+                        </span>
+                        <span className={col.live ? "font-medium text-white/90" : "text-slate-500"}>
+                          {s.text}
+                        </span>
+                      </li>
+                    );
+                  })}
+                </ol>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ═════════════════ HOW IT WORKS (zigzag timeline) ═════════════════ */}
+      <section className="bg-[#F5F8FC] px-6 py-20 sm:px-10 lg:py-28">
+        <div className="mx-auto max-w-5xl">
+          <div className="mx-auto max-w-2xl text-center">
+            <p className="text-sm font-bold uppercase tracking-[0.2em] text-[#FE8A01]">
+              How It Works
+            </p>
+            <h2 className="mt-4 text-3xl font-black tracking-tight sm:text-4xl">
+              From Their Call to Your Line
+            </h2>
+          </div>
+
+          <div className="relative mt-16">
+            <span className="absolute bottom-0 left-6 top-0 w-1 rounded-full bg-gradient-to-b from-[#1879D8] via-[#FE8A01] to-[#061B35] md:left-1/2 md:-translate-x-1/2" />
+
+            <div className="space-y-10 md:space-y-4">
+              {steps.map((s, i) => {
+                const Icon = s.icon;
+                const right = i % 2 === 1;
                 return (
-                  <div
-                    key={card.title}
-                    className="rounded-2xl border border-slate-100 bg-slate-50 p-6 transition hover:border-orange-200 hover:bg-orange-50/40"
-                  >
-                    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-orange-500 text-white">
-                      <Icon size={19} />
+                  <div key={s.title} className="relative md:grid md:grid-cols-2 md:gap-16">
+                    <span className="absolute left-6 top-6 z-10 flex h-12 w-12 -translate-x-1/2 items-center justify-center rounded-full border-4 border-[#F5F8FC] bg-[#061B35] text-sm font-black text-white md:left-1/2">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <div
+                      className={`ml-16 rounded-3xl bg-white p-7 shadow-[0_15px_40px_-25px_rgba(6,27,53,0.35)] ring-1 ring-slate-200/70 md:ml-0 ${
+                        right ? "md:col-start-2" : "md:text-right"
+                      }`}
+                    >
+                      <span
+                        className={`inline-flex h-11 w-11 items-center justify-center rounded-xl bg-[#FE8A01]/10 text-[#FE8A01]`}
+                      >
+                        <Icon size={20} />
+                      </span>
+                      <h3 className="mt-4 text-xl font-extrabold">{s.title}</h3>
+                      <p className="mt-2 text-[15px] leading-relaxed text-slate-600">{s.text}</p>
                     </div>
-                    <h3 className="mt-4 text-sm font-bold text-slate-900">{card.title}</h3>
-                    <p className="mt-1.5 text-xs leading-5 text-slate-500">{card.body}</p>
                   </div>
                 );
               })}
@@ -251,196 +332,110 @@ export default function LiveCallsPage() {
         </div>
       </section>
 
-      {/* ══════════════════════════════════════
-          HOW IT WORKS
-      ══════════════════════════════════════ */}
-      <section className="bg-[#0f1f33] px-6 py-20 sm:px-10 sm:py-24">
+      {/* ═════════════════ REASONS ═════════════════ */}
+      <section className="px-6 py-20 sm:px-10 lg:py-28">
         <div className="mx-auto max-w-7xl">
-          <div className="mx-auto max-w-2xl text-center">
-            <p className="text-xs font-bold uppercase tracking-[0.22em] text-orange-400">
-              The Process
-            </p>
-            <h2 className="mt-3 text-3xl font-extrabold text-white sm:text-4xl">
-              How Live Call Transfers Work
-            </h2>
-            <p className="mt-4 text-sm leading-7 text-white/50">
-              From the moment a customer expresses interest to the second your
-              phone rings — here&apos;s what happens.
-            </p>
-          </div>
-
-          <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {steps.map((step, i) => {
-              const Icon = step.icon;
-              return (
-                <div
-                  key={step.number}
-                  className="relative overflow-hidden rounded-2xl border border-white/8 bg-white/5 p-7 backdrop-blur-sm"
-                  style={{ borderColor: "rgba(255,255,255,0.08)" }}
-                >
-                  {/* Ghost number */}
-                  <span className="absolute right-4 top-3 text-7xl font-extrabold leading-none text-white/5 select-none">
-                    {step.number}
-                  </span>
-
-                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-orange-500 text-white shadow-lg shadow-orange-900/30">
-                    <Icon size={22} />
-                  </div>
-
-                  {/* Connector */}
-                  {i < steps.length - 1 && (
-                    <div className="absolute -right-3 top-1/2 hidden -translate-y-1/2 lg:block">
-                      <ArrowRight size={18} className="text-orange-500/40" />
-                    </div>
-                  )}
-
-                  <h3 className="mt-6 text-base font-extrabold text-white">
-                    {step.title}
-                  </h3>
-                  <p className="mt-2 text-sm leading-6 text-white/55">
-                    {step.description}
-                  </p>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* ══════════════════════════════════════
-          WHY CHOOSE LIVE CALLS — 6 CARDS
-      ══════════════════════════════════════ */}
-      <section className="bg-slate-50 px-6 py-20 sm:px-10 sm:py-24">
-        <div className="mx-auto max-w-7xl">
-          <div className="mx-auto max-w-2xl text-center">
-            <p className="text-xs font-bold uppercase tracking-[0.22em] text-orange-500">
-              Why Live Calls
-            </p>
-            <h2 className="mt-3 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
-              Why Choose Live Call Transfers?
-            </h2>
-            <p className="mt-4 text-base leading-7 text-slate-500">
-              Live calls are one of the highest-converting lead types in the
-              auto transport industry. Here&apos;s why GrouponFreight brokers
-              rely on them.
-            </p>
-          </div>
-
-          <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {whyChoose.map((item) => {
-              const Icon = item.icon;
-              return (
-                <div
-                  key={item.title}
-                  className="group flex flex-col gap-4 rounded-2xl border border-slate-200 bg-white p-7 shadow-sm transition hover:-translate-y-1 hover:border-orange-300 hover:shadow-lg"
-                >
-                  <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-orange-500 text-white shadow-md shadow-orange-200 transition group-hover:bg-orange-600">
-                    <Icon size={21} />
-                  </div>
-                  <div>
-                    <h3 className="text-base font-bold text-slate-900">{item.title}</h3>
-                    <p className="mt-2 text-sm leading-7 text-slate-500">{item.description}</p>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* ══════════════════════════════════════
-          GROW YOUR BROKERAGE — CTA
-      ══════════════════════════════════════ */}
-      <section className="bg-[#0f1f33] px-6 py-20 sm:px-10 sm:py-24">
-        <div className="mx-auto max-w-7xl">
-          <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
+          <div className="grid gap-6 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
             <div>
-              <p className="text-xs font-bold uppercase tracking-[0.22em] text-orange-400">
-                Ready to Generate More Sales?
+              <p className="text-sm font-bold uppercase tracking-[0.2em] text-[#FE8A01]">
+                Why Live Calls
               </p>
-              <h2 className="mt-3 text-3xl font-extrabold leading-tight text-white sm:text-4xl">
-                Grow Your Brokerage with{" "}
-                <span className="text-orange-400">GrouponFreight</span>
+              <h2 className="mt-4 text-3xl font-black leading-tight tracking-tight sm:text-4xl lg:text-5xl">
+                Built for Teams That Close on the Phone
               </h2>
-              <div className="mt-5 space-y-4 text-base leading-8 text-white/60">
-                <p>
-                  Every auto transport brokerage needs a reliable way to connect
-                  with potential customers. Live call transfers complement your
-                  existing lead generation strategy by creating real-time
-                  opportunities with people who are actively seeking vehicle
-                  transportation services.
-                </p>
-                <p>
-                  Whether you&apos;re expanding your customer base or looking to
-                  improve your sales team&apos;s pipeline, GrouponFreight&apos;s
-                  live call transfer leads are a proven addition to any
-                  brokerage&apos;s growth strategy.
-                </p>
-              </div>
+              <p className="mt-5 text-lg leading-relaxed text-slate-600">
+                If your reps are at their best in a live conversation, this is the lead type for
+                you.
+              </p>
+            </div>
 
-              <div className="mt-9 flex flex-wrap gap-4">
+            <div className="grid gap-x-8 gap-y-10 sm:grid-cols-2">
+              {reasons.map((r) => {
+                const Icon = r.icon;
+                return (
+                  <div key={r.title} className="group flex gap-4">
+                    <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#1879D8]/10 text-[#1879D8] transition group-hover:bg-[#1879D8] group-hover:text-white">
+                      <Icon size={20} />
+                    </span>
+                    <div>
+                      <h3 className="text-lg font-extrabold">{r.title}</h3>
+                      <p className="mt-1.5 text-[15px] leading-relaxed text-slate-600">{r.text}</p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ═════════════════ PRICE + CTA ═════════════════ */}
+      <section className="px-6 pb-24 sm:px-10">
+        <div className="relative mx-auto max-w-6xl overflow-hidden rounded-[36px] bg-gradient-to-br from-[#FE8A01] to-[#E97900] p-8 sm:p-12 lg:p-14">
+          <div
+            className="pointer-events-none absolute inset-0 opacity-20"
+            style={{
+              backgroundImage: "radial-gradient(circle, #fff 1px, transparent 1px)",
+              backgroundSize: "22px 22px",
+            }}
+          />
+          <div className="relative grid items-center gap-10 lg:grid-cols-[1.2fr_0.8fr]">
+            <div>
+              <h2 className="text-3xl font-black leading-tight text-white sm:text-5xl">
+                Ready for Your Phone to Ring?
+              </h2>
+              <p className="mt-4 max-w-lg text-lg text-white/90">
+                Start with {MIN_CALLS} live calls and see how your team performs on the phone.
+              </p>
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                 <Link
                   href="/product-pricing"
-                  className="inline-flex items-center gap-2 rounded-xl bg-orange-500 px-8 py-3.5 font-bold text-white shadow-lg shadow-orange-900/40 transition hover:bg-orange-400 active:scale-95"
+                  className="group inline-flex items-center justify-center gap-2 rounded-xl bg-[#061B35] px-8 py-4 font-bold text-white transition hover:bg-[#0E2A4D]"
                 >
-                  Order Live Call Leads
-                  <ArrowRight size={17} />
+                  Order Live Calls
+                  <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
                 </Link>
                 <a
-                  href="mailto:info@grouponfreight.org?subject=Live%20Call%20Transfer%20Lead%20Inquiry"
-                  className="inline-flex items-center gap-2 rounded-xl border border-white/20 px-8 py-3.5 font-semibold text-white transition hover:bg-white/10"
-                  style={{ backgroundColor: "rgba(255,255,255,0.06)" }}
+                  href={WA_LINK}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-2 rounded-xl bg-white px-8 py-4 font-bold text-[#061B35] transition hover:-translate-y-0.5"
                 >
-                  <Mail size={17} />
-                  Contact GrouponFreight
+                  <MessageCircle size={18} className="text-[#25D366]" />
+                  WhatsApp Us
                 </a>
               </div>
             </div>
 
-            {/* Checklist card */}
-            <div className="rounded-2xl border border-white/10 bg-white/5 p-8 backdrop-blur-sm">
-              <p className="text-sm font-bold uppercase tracking-widest text-orange-400">
-                Live call transfers include
+            <div className="rounded-3xl bg-white p-8 shadow-2xl">
+              <p className="text-sm font-bold uppercase tracking-[0.2em] text-slate-400">
+                Live transfer call
               </p>
-              <ul className="mt-6 space-y-4">
+              <p className="mt-2 flex items-baseline gap-1.5">
+                <span className="text-6xl font-black tracking-tight">${PRICE}</span>
+                <span className="font-semibold text-slate-400">/ call</span>
+              </p>
+              <ul className="mt-6 space-y-3 text-sm font-medium">
                 {[
-                  "Real-time transfer to your designated phone line",
-                  "One broker per call — no shared distribution",
-                  "Callers screened for genuine shipping intent",
-                  "Domestic vehicle shipping calls available",
-                  "Instant connection while customer interest is highest",
-                  "Dedicated GrouponFreight team support",
-                  "$25 per call · $300 minimum order",
+                  "1 broker per call",
+                  "Transferred to your phone line",
+                  "Domestic vehicle shipping",
+                  `Min. order $${MIN_ORDER} (${MIN_CALLS} calls)`,
                 ].map((item) => (
-                  <li
-                    key={item}
-                    className="flex items-start gap-3 text-sm text-white/75"
-                  >
-                    <CheckCircle2
-                      size={17}
-                      className="mt-0.5 shrink-0 text-orange-400"
-                    />
+                  <li key={item} className="flex items-center gap-3">
+                    <CheckCircle2 size={18} className="shrink-0 text-[#FE8A01]" />
                     {item}
                   </li>
                 ))}
               </ul>
-
-              <div className="mt-8 border-t border-white/10 pt-6 flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-orange-500">
-                  <PhoneCall size={18} className="text-white" />
-                </div>
-                <div>
-                  <p className="text-xs text-white/35">Questions? Reach us at</p>
-                  <p className="text-sm font-semibold text-white">
-                    info@grouponfreight.org
-                  </p>
-                </div>
-              </div>
             </div>
           </div>
         </div>
+        <p className="mx-auto mt-6 max-w-3xl text-center text-xs leading-5 text-slate-400">
+          Prices may change with demand and availability, and are confirmed before every order.
+          Live calls create sales opportunities but do not guarantee bookings.
+        </p>
       </section>
-
     </main>
   );
 }
