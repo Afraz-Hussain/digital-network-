@@ -28,7 +28,7 @@ const WHATSAPP_NUMBER = "17342622139";
 
 const navLinks = [
   { name: "Home", href: "/" },
-
+{ name: "About", href: "/about" },
   {
     name: "Services",
     children: [
@@ -65,8 +65,8 @@ const navLinks = [
     ],
     footer: { name: "Compare all packages", href: "/product-pricing" },
   },
-  { name: "All Leads", href: "/leads" },
-  { name: "Exclusive Leads", href: "/exclusive-leads" },
+  
+  { name: "Faq", href: "/faq" },
   // { name: "Freight Shipping", href: "/freight-shipping" },
   {
     name: "Our Policies",

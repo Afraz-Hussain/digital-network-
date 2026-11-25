@@ -171,7 +171,7 @@ export default function Footer() {
       <div className="border-t border-slate-800">
         <div className="mx-auto flex max-w-7xl flex-col gap-4 px-5 py-6 text-sm sm:px-8 md:flex-row md:items-center md:justify-between">
           <p className="text-slate-500">
-            © {currentYear} GrouponFreight. All rights reserved.
+            © {currentYear} Digital Network. All rights reserved.
           </p>
           <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
             <Link
@@ -187,10 +187,10 @@ export default function Footer() {
               Terms & Conditions
             </Link>
             <a
-              href="mailto:info@grouponfreight.org"
+              href="mailto:info@digitalnetwork.org"
               className="text-slate-400 transition hover:text-orange-400"
             >
-              info@grouponfreight.org
+              info@digitalnetwork.org
             </a>
           </div>
         </div>
